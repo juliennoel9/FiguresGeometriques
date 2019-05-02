@@ -1,11 +1,12 @@
+import controleur.PanneauChoix;
 import vue.VueDessin;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 public class Fenetre extends JFrame {
 
-    private JPanel    principal;
     private VueDessin vdessin;
     private JPanel    choix;
 
@@ -13,6 +14,11 @@ public class Fenetre extends JFrame {
         setTitle(title);
         setPreferredSize(new Dimension(longeur, largeur));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        vdessin = new VueDessin();
+        choix = new PanneauChoix(vdessin);
+        add(choix, BorderLayout.NORTH);
+        add(vdessin, BorderLayout.CENTER);
         pack();
         setVisible(true);
     }
