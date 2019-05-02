@@ -64,6 +64,35 @@ public class PanneauChoix extends JPanel {
     }
 
     public Color determineCouleur(int couleur) {
-        return null;
+        Color res;
+        switch (couleur) {
+            case 0 :
+                res = Color.black;
+                break;
+            case 1 :
+                res= Color.red;
+                break;
+            case 2 :
+                res= Color.green;
+                break;
+            case 3 :
+                res= Color.blue;
+                break;
+            case 4 :
+                res= Color.yellow;
+                break;
+            case 5 :
+                res= Color.gray;
+                break;
+            case 6 :
+                res= Color.magenta;
+                break;
+            case 7 :
+                res= Color.pink;
+                break;
+            default :
+                res= Color.black;
+        }
+        return res;
     }
 }
