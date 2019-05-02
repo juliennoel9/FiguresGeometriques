@@ -7,6 +7,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +18,7 @@ public class PanneauChoix extends JPanel {
 
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
+        setPreferredSize(new Dimension(50,150));
         JRadioButton      newFig    = new JRadioButton("Nouvelle figure");
         JRadioButton      mainLevee = new JRadioButton("Trace a main levee");
         JRadioButton      manip     = new JRadioButton("Manipulations");
@@ -36,6 +38,7 @@ public class PanneauChoix extends JPanel {
         b.add(newFig);
         b.add(mainLevee);
         b.add(manip);
+
         mainLevee.setSelected(true);
         newFig.addActionListener(new ActionListener() {
             @Override
@@ -53,7 +56,7 @@ public class PanneauChoix extends JPanel {
         manip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                formes.setEnabled(false);
             }
         });
         this.add(newFig);
@@ -66,32 +69,32 @@ public class PanneauChoix extends JPanel {
     public Color determineCouleur(int couleur) {
         Color res;
         switch (couleur) {
-            case 0 :
-                res = Color.black;
+            case 0:
+                res = Color.BLACK;
                 break;
-            case 1 :
-                res= Color.red;
+            case 1:
+                res = Color.RED;
                 break;
-            case 2 :
-                res= Color.green;
+            case 2:
+                res = Color.GREEN;
                 break;
-            case 3 :
-                res= Color.blue;
+            case 3:
+                res = Color.BLUE;
                 break;
-            case 4 :
-                res= Color.yellow;
+            case 4:
+                res = Color.YELLOW;
                 break;
-            case 5 :
-                res= Color.gray;
+            case 5:
+                res = Color.GRAY;
                 break;
-            case 6 :
-                res= Color.magenta;
+            case 6:
+                res = Color.MAGENTA;
                 break;
-            case 7 :
-                res= Color.pink;
+            case 7:
+                res = Color.PINK;
                 break;
-            default :
-                res= Color.black;
+            default:
+                res = Color.BLACK;
         }
         return res;
     }
