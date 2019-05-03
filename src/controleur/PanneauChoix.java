@@ -2,12 +2,8 @@ package controleur;
 
 import modele.DessinModele;
 import vue.VueDessin;
-import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,7 +14,9 @@ public class PanneauChoix extends JPanel {
 
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
-        setPreferredSize(new Dimension(50,150));
+        JPanel j  = new JPanel();
+        JPanel j2 = new JPanel();
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JRadioButton      newFig    = new JRadioButton("Nouvelle figure");
         JRadioButton      mainLevee = new JRadioButton("Trace a main levee");
         JRadioButton      manip     = new JRadioButton("Manipulations");
@@ -59,11 +57,13 @@ public class PanneauChoix extends JPanel {
                 formes.setEnabled(false);
             }
         });
-        this.add(newFig);
-        this.add(mainLevee);
-        this.add(manip);
-        this.add(formes);
-        this.add(couleurs);
+        j.add(newFig);
+        j.add(mainLevee);
+        j.add(manip);
+        this.add(j);
+        j2.add(formes);
+        j2.add(couleurs);
+        this.add(j2);
     }
 
     public Color determineCouleur(int couleur) {
