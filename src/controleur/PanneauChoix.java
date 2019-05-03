@@ -1,6 +1,8 @@
 package controleur;
 
 import modele.DessinModele;
+import modele.FigureColoree;
+import modele.Quadrilatere;
 import vue.VueDessin;
 import javax.swing.*;
 import java.awt.Color;
@@ -9,18 +11,21 @@ import java.awt.event.ActionListener;
 
 public class PanneauChoix extends JPanel {
 
-    private VueDessin    vdessin;
-    private DessinModele dmodele;
+    private VueDessin     vdessin;
+    private DessinModele  dmodele;
+    private FigureColoree figureEnCours;
+    private String[]      tabForme;
 
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
+        tabForme = new String[]{"Rectangle", "Triangle"};
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JRadioButton      newFig    = new JRadioButton("Nouvelle figure");
         JRadioButton      mainLevee = new JRadioButton("Trace a main levee");
         JRadioButton      manip     = new JRadioButton("Manipulations");
-        JComboBox<String> formes    = new JComboBox<>(new String[]{"Triangle", "Rectangle"});
+        JComboBox<String> formes    = new JComboBox<>(tabForme);
         JComboBox<String> couleurs = new JComboBox<>(new String[]{
                 "Noir",
                 "Rouge",
@@ -57,6 +62,14 @@ public class PanneauChoix extends JPanel {
                 formes.setEnabled(false);
             }
         });
+
+        formes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                figureEnCours = creeFigure(formes.getSelectedIndex());
+            }
+        });
+
         j.add(newFig);
         j.add(mainLevee);
         j.add(manip);
@@ -66,7 +79,7 @@ public class PanneauChoix extends JPanel {
         this.add(j2);
     }
 
-    public Color determineCouleur(int couleur) {
+    private Color determineCouleur(int couleur) {
         Color res;
         switch (couleur) {
             case 0:
@@ -97,5 +110,14 @@ public class PanneauChoix extends JPanel {
                 res = Color.BLACK;
         }
         return res;
+    }
+
+    private FigureColoree creeFigure(int nb) {
+        switch (tabForme[nb]) {
+            case "Rectangle":
+                return new Quadrilatere();
+            default:
+                return null;
+        }
     }
 }

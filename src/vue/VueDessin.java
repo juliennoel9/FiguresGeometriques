@@ -1,16 +1,16 @@
 package vue;
 
 import modele.DessinModele;
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
 
 public class VueDessin extends JPanel implements Observer {
+
     private DessinModele dessin;
 
-    public VueDessin(){
+    public VueDessin() {
 
     }
 
@@ -19,7 +19,7 @@ public class VueDessin extends JPanel implements Observer {
 
     }
 
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
 
     }
 }

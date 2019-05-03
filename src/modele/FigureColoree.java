@@ -1,13 +1,15 @@
 package modele;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class FigureColoree {
     private final static int TAILLE_CARRE_SELECTION=5;
-    private boolean selected;
     protected Color couleur;
     protected ArrayList<Point> tab_mem;
+    private boolean selected;
 
     public FigureColoree(){
            this.selected=false;
@@ -19,7 +21,7 @@ public abstract class FigureColoree {
 
     public abstract int nbClics();
 
-    public abstract void modifierPoints(ArrayList<Point> points);
+    public abstract void modifierPoints(List<Point> points);
 
     public void affiche(Graphics g){
 
