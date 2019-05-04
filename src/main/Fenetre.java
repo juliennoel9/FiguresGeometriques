@@ -1,3 +1,5 @@
+package main;
+
 import controleur.PanneauChoix;
 import vue.VueDessin;
 import javax.swing.JFrame;
@@ -18,13 +20,17 @@ public class Fenetre extends JFrame {
         setMinimumSize(new Dimension(415, 493));
         vdessin = new VueDessin();
         choix = new PanneauChoix(vdessin);
-        add(choix, BorderLayout.NORTH);
         add(vdessin, BorderLayout.CENTER);
+        add(choix, BorderLayout.NORTH);
         pack();
         setVisible(true);
     }
 
+    public PanneauChoix getChoix() {
+        return (PanneauChoix) choix;
+    }
+
     public static void main(String[] arguments) {
-        Fenetre f = new Fenetre("", 1024, 500);
+        Fenetre f = new Fenetre("Figures Géometriques", 1024, 500);
     }
 }
