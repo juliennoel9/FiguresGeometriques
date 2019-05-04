@@ -1,31 +1,35 @@
 package controleur;
 
-import modele.DessinModele;
-import modele.FigureColoree;
-import modele.Quadrilatere;
+import modele.*;
 import vue.VueDessin;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class PanneauChoix extends JPanel {
 
-    private VueDessin     vdessin;
-    private DessinModele  dmodele;
-    private FigureColoree figureEnCours;
-    private String[]      tabForme;
+    private VueDessin         vdessin;
+    private DessinModele      dmodele;
+    private FigureColoree     figureEnCours;
+    private String[]          tabForme;
+    private Color             coulPerso;
+    private JComboBox<String> formes;
+    private Color             colorSelected;
 
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
-        tabForme = new String[]{"Rectangle", "Triangle"};
+        dmodele = new DessinModele();
+        dmodele.addObserver(vdessin);
+        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere"};
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JRadioButton      newFig    = new JRadioButton("Nouvelle figure");
-        JRadioButton      mainLevee = new JRadioButton("Trace a main levee");
-        JRadioButton      manip     = new JRadioButton("Manipulations");
-        JComboBox<String> formes    = new JComboBox<>(tabForme);
+        JRadioButton newFig    = new JRadioButton("Nouvelle figure");
+        JRadioButton mainLevee = new JRadioButton("Trace a main levee");
+        JRadioButton manip     = new JRadioButton("Manipulations");
+        formes = new JComboBox<>(tabForme);
         JComboBox<String> couleurs = new JComboBox<>(new String[]{
                 "Noir",
                 "Rouge",
@@ -34,9 +38,11 @@ public class PanneauChoix extends JPanel {
                 "Jaune",
                 "Gris",
                 "Magenta",
-                "Rose"
+                "Rose",
+                "Personnaliser"
         });
         formes.setEnabled(false);
+
         ButtonGroup b = new ButtonGroup();
         b.add(newFig);
         b.add(mainLevee);
@@ -47,12 +53,15 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(true);
+                supFigure();
+                formes.setSelectedIndex(formes.getSelectedIndex());
             }
         });
         mainLevee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(false);
+                supFigure();
                 //todo a completer pour le dessin
             }
         });
@@ -60,13 +69,35 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(false);
+                supFigure();
             }
         });
+        couleurs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (couleurs.getSelectedIndex() == 8) {
+                    Color r = new Color(rand(), rand(), rand(), 255);
+                    coulPerso = JColorChooser.showDialog(vdessin,
+                            "Choisissez votre couleur ! ", r
+                    );
+                }
+                colorSelected = determineCouleur(couleurs.getSelectedIndex());
+            }
 
+            private int rand() {
+                return new Random().nextInt(255);
+            }
+        });
         formes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (vdessin.getMouseListeners().length != 0) {
+                    vdessin.removeMouseListener(vdessin.getMouseListeners()[0]);
+                }
                 figureEnCours = creeFigure(formes.getSelectedIndex());
+                figureEnCours.changeCouleur(determineCouleur(couleurs.getSelectedIndex()));
+                dmodele.construit(figureEnCours);
+                vdessin.addMouseListener(dmodele.getFigureEnCours());
             }
         });
 
@@ -79,12 +110,29 @@ public class PanneauChoix extends JPanel {
         this.add(j2);
     }
 
+    public Color getCoulPerso() {
+        return coulPerso;
+    }
+
+    public void reCreateObject() {
+        formes.setSelectedIndex(formes.getSelectedIndex());
+    }
+
+    public Color getCouleur() {
+        return colorSelected;
+    }
+
+    private void supFigure() {
+        if (figureEnCours != null) {
+            figureEnCours = null;
+            dmodele.finFigure();
+            vdessin.addMouseListener(null);
+        }
+    }
+
     private Color determineCouleur(int couleur) {
         Color res;
         switch (couleur) {
-            case 0:
-                res = Color.BLACK;
-                break;
             case 1:
                 res = Color.RED;
                 break;
@@ -106,6 +154,9 @@ public class PanneauChoix extends JPanel {
             case 7:
                 res = Color.PINK;
                 break;
+            case 8:
+                res = coulPerso;
+                break;
             default:
                 res = Color.BLACK;
         }
@@ -115,6 +166,10 @@ public class PanneauChoix extends JPanel {
     private FigureColoree creeFigure(int nb) {
         switch (tabForme[nb]) {
             case "Rectangle":
+                return new Rectangle();
+            case "Triangle":
+                return new Triangle();
+            case "Quadrilatere":
                 return new Quadrilatere();
             default:
                 return null;
