@@ -71,8 +71,17 @@ public class DessinModele extends Observable {
         listFigureColore.add(fc);
     }
 
+    public FabricantFigure getFigureEnCours() {
+        return figureEnCours;
+    }
+
     public void construit(FigureColoree fc) {
         figureEnCours = new FabricantFigure(fc, this);
+    }
+
+    public void update() {
+        setChanged();
+        notifyObservers(this);
     }
 
     public void finFigure() {
