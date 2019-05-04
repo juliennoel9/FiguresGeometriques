@@ -1,14 +1,18 @@
 package controleur;
 
+import main.Fenetre;
 import modele.DessinModele;
 import modele.FigureColoree;
 import modele.Point;
+import modele.Rectangle;
+import vue.VueDessin;
+import javax.swing.SwingUtilities;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FabricantFigure implements MouseListener {
+public class FabricantFigure implements MouseListener/*, MouseWheelListener */ {
 
     private DessinModele ds;
 
@@ -17,6 +21,8 @@ public class FabricantFigure implements MouseListener {
     private List<Point> pointsCliques;
 
     private int nbClique;
+
+    private PanneauChoix panneauChoix;
 
     public FabricantFigure(FigureColoree figureEnCours, DessinModele ds) {
         this.ds = ds;
@@ -34,12 +40,22 @@ public class FabricantFigure implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         nbClique++;
+        panneauChoix = ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix();
+        figureEnCours.changeCouleur(panneauChoix.getCouleur());
+        System.out.println("Clique n°" + nbClique + " / " + figureEnCours.nbClics());
         pointsCliques.add(new Point(e.getX(), e.getY()));
         if (nbClique == figureEnCours.nbClics()) {
+            if (figureEnCours instanceof Rectangle) {
+                calcPoints();
+            }
             figureEnCours.modifierPoints(pointsCliques);
             ds.addFigureColore(figureEnCours);
+            ((VueDessin) e.getSource()).removeMouseListener(this);
+            panneauChoix.reCreateObject();
             ds.finFigure();
+
         }
+        ds.update();
 
     }
 
@@ -93,5 +109,14 @@ public class FabricantFigure implements MouseListener {
 
     public int getNbClique() {
         return nbClique;
+    }
+
+    private void calcPoints() {
+        Point a = pointsCliques.get(0);
+        Point c = pointsCliques.get(1);
+        Point b = new Point(c.getX(), a.getY());
+        Point d = new Point(a.getX(), c.getY());
+        pointsCliques.add(1, b);
+        pointsCliques.add(d);
     }
 }
