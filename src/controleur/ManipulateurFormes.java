@@ -1,9 +1,7 @@
 package controleur;
 
-import modele.DessinModele;
-import modele.FigureColoree;
-import modele.Point;
-import modele.Polygone;
+import modele.*;
+
 import javax.swing.SwingUtilities;
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;
@@ -105,6 +103,21 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
                     }
 
                 }
+                if (fg instanceof Cercle){
+                    last_x = e.getX();
+                    last_y = e.getY();
+                    Point p1 = fg.getPoints().get(0);
+                    Point p2 = fg.getPoints().get(1);
+                    int distance = (int)p1.distance(p2);
+                    java.awt.Rectangle r = new java.awt.Rectangle(p1.getX(),p1.getY(),distance,distance);
+                    if (r.contains(last_x,last_y)){
+                        fg.selectionne();
+                        dm.update();
+                        sel=i;
+                        found=true;
+                        break;
+                    }
+                }
                 i++;
             }
             if (!found) {
@@ -176,9 +189,23 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         }
         if (SwingUtilities.isRightMouseButton(e)) {
             if (selected != null) {
-                int difX = e.getX() - last_x;
-                int difY = e.getY() - last_y;
-                selected.translater(difX, difY);
+                if (lfg.get(sel) instanceof Cercle) {
+                    int difX = e.getX() - last_x;
+                    int difY = e.getY() - last_y;
+                    if (selected.equals(figureSelection().getPoints().get(0))){
+                        for (Point p : figureSelection().getPoints()){
+                            p.translater(difX, difY);
+                        }
+                    }else{
+                        selected.translater(difX, difY);
+                    }
+
+                }
+                else {
+                    int difX = e.getX() - last_x;
+                    int difY = e.getY() - last_y;
+                    selected.translater(difX, difY);
+                }
             }
         }
         dm.update();
@@ -220,5 +247,13 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
      */
     public void selectionProchaineFigure() {
         this.sel += 1;
+    }
+
+    /**
+     * Getter permettant de retourner la liste de figure de l'instance
+     * @return Liste de figures
+     */
+    public List<FigureColoree> getLfg() {
+        return lfg;
     }
 }

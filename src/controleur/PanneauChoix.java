@@ -55,6 +55,8 @@ public class PanneauChoix extends JPanel {
      */
     private ManipulateurFormes manipulateurFormes;
 
+    private JButton effacerSelection;
+
     /**
      * Permet de crée un paneau choix avec tout les boutons / box
      *
@@ -65,7 +67,7 @@ public class PanneauChoix extends JPanel {
         this.colorSelected = Color.BLACK;
         dmodele = new DessinModele();
         dmodele.addObserver(vdessin);
-        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere"};
+        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle"};
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -91,6 +93,19 @@ public class PanneauChoix extends JPanel {
         b.add(mainLevee);
         b.add(manip);
 
+        effacerSelection = new JButton("Effacer");
+        effacerSelection.setEnabled(false);
+
+        effacerSelection.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (manipulateurFormes != null){
+                    dmodele.delFigureColoree(manipulateurFormes.getLfg().get(manipulateurFormes.getLfg().indexOf(manipulateurFormes.figureSelection())));
+                    dmodele.update();
+                }
+            }
+        });
+
         mainLevee.setSelected(true);
         newFig.addActionListener(new ActionListener() {
             @Override
@@ -98,6 +113,7 @@ public class PanneauChoix extends JPanel {
                 formes.setEnabled(true);
                 supFigure();
                 formes.setSelectedIndex(formes.getSelectedIndex());
+                effacerSelection.setEnabled(false);
             }
         });
         mainLevee.addActionListener(new ActionListener() {
@@ -105,6 +121,7 @@ public class PanneauChoix extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(false);
                 supFigure();
+                effacerSelection.setEnabled(false);
                 //todo a completer pour le dessin
             }
         });
@@ -112,6 +129,7 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(false);
+                effacerSelection.setEnabled(true);
                 supFigure();
                 manipulateurFormes = new ManipulateurFormes(dmodele);
                 vdessin.addMouseListener(manipulateurFormes);
@@ -158,6 +176,7 @@ public class PanneauChoix extends JPanel {
         j.add(mainLevee);
         j.add(manip);
         this.add(j);
+        j2.add(effacerSelection);
         j2.add(formes);
         j2.add(couleurs);
         this.add(j2);
@@ -255,6 +274,8 @@ public class PanneauChoix extends JPanel {
                 return new Triangle();
             case "Quadrilatere":
                 return new Quadrilatere();
+            case "Cercle":
+                return new Cercle();
             default:
                 return null;
         }
