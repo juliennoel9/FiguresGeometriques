@@ -1,5 +1,6 @@
 package vue;
 
+import controleur.ManipulateurFormes;
 import modele.DessinModele;
 import modele.FigureColoree;
 import javax.swing.JPanel;
@@ -14,6 +15,11 @@ public class VueDessin extends JPanel implements Observer {
      * Le dessinModele
      */
     private DessinModele dessin;
+
+    /**
+     * Manipulateur de forme de la vue
+     */
+    private ManipulateurFormes mf;
 
     /**
      * Constructeur ajoutant la taille
