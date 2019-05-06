@@ -10,19 +10,36 @@ import java.util.Observer;
 
 public class VueDessin extends JPanel implements Observer {
 
+    /**
+     * Le dessinModele
+     */
     private DessinModele dessin;
 
+    /**
+     * Constructeur ajoutant la taille
+     */
     public VueDessin() {
         setVisible(true);
         setPreferredSize(new Dimension(100, 100));
     }
 
+    /**
+     * Methode d'update de l'observer
+     *
+     * @param o   l'observable {@link DessinModele}
+     * @param arg les args
+     */
     @Override
     public void update(Observable o, Object arg) {
         dessin = (DessinModele) o;
         repaint();
     }
 
+    /**
+     * permet de dessiner les figures
+     *
+     * @param g le graphique
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (dessin != null) {

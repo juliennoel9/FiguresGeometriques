@@ -39,6 +39,16 @@ public class FabricantFigure implements MouseListener/*, MouseWheelListener */ {
      */
     @Override
     public void mouseClicked(MouseEvent e) {
+
+    }
+
+    /**
+     * Invoked when a mouse button has been pressed on a component.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void mousePressed(MouseEvent e) {
         nbClique++;
         panneauChoix = ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix();
         figureEnCours.changeCouleur(panneauChoix.getCouleur());
@@ -53,20 +63,8 @@ public class FabricantFigure implements MouseListener/*, MouseWheelListener */ {
             ((VueDessin) e.getSource()).removeMouseListener(this);
             panneauChoix.reCreateObject();
             ds.finFigure();
-
         }
         ds.update();
-
-    }
-
-    /**
-     * Invoked when a mouse button has been pressed on a component.
-     *
-     * @param e the event to be processed
-     */
-    @Override
-    public void mousePressed(MouseEvent e) {
-
     }
 
     /**
@@ -99,18 +97,30 @@ public class FabricantFigure implements MouseListener/*, MouseWheelListener */ {
 
     }
 
+    /**
+     * @return la figure en cours
+     */
     public FigureColoree getFigureEnCours() {
         return figureEnCours;
     }
 
+    /**
+     * @return une liste de point
+     */
     public List<Point> getPointsClique() {
         return pointsCliques;
     }
 
+    /**
+     * @return le nombre de clock
+     */
     public int getNbClique() {
         return nbClique;
     }
 
+    /**
+     * Permet de calculer les points restant pour le rectangle
+     */
     private void calcPoints() {
         Point a = pointsCliques.get(0);
         Point c = pointsCliques.get(1);
