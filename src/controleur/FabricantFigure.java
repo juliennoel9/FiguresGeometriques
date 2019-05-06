@@ -75,9 +75,6 @@ public class FabricantFigure implements MouseListener {
         System.out.println("Clique n°" + nbClique + " / " + figureEnCours.nbClics());
         pointsCliques.add(new Point(e.getX(), e.getY()));
         if (nbClique == figureEnCours.nbClics()) {
-            if (figureEnCours instanceof Rectangle) {
-                calcPoints();
-            }
             figureEnCours.modifierPoints(pointsCliques);
             ds.addFigureColore(figureEnCours);
             ((VueDessin) e.getSource()).removeMouseListener(this);
@@ -136,17 +133,5 @@ public class FabricantFigure implements MouseListener {
      */
     public int getNbClique() {
         return nbClique;
-    }
-
-    /**
-     * Permet de calculer les points restant pour le rectangle
-     */
-    private void calcPoints() {
-        Point a = pointsCliques.get(0);
-        Point c = pointsCliques.get(1);
-        Point b = new Point(c.getX(), a.getY());
-        Point d = new Point(a.getX(), c.getY());
-        pointsCliques.add(1, b);
-        pointsCliques.add(d);
     }
 }
