@@ -56,6 +56,7 @@ public class PanneauChoix extends JPanel {
      */
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
+        this.colorSelected = Color.BLACK;
         dmodele = new DessinModele();
         dmodele.addObserver(vdessin);
         tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere"};
@@ -117,7 +118,7 @@ public class PanneauChoix extends JPanel {
                 if (couleurs.getSelectedIndex() == 8) {
                     Color r = new Color(rand(), rand(), rand(), 255);
                     coulPerso = JColorChooser.showDialog(vdessin,
-                            "Choisissez votre couleur ! ", r
+                                                         "Choisissez votre couleur ! ", r
                     );
                 }
                 colorSelected = determineCouleur(couleurs.getSelectedIndex());
@@ -190,7 +191,9 @@ public class PanneauChoix extends JPanel {
             if (t != null) {
                 manipulateurFormes.figureSelection().deSelectionne();
             }
+            manipulateurFormes = null;
         }
+        dmodele.update();
     }
 
     /**
