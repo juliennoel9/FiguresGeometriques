@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.FabricantCarre;
 import controleur.FabricantFigure;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +88,13 @@ public class DessinModele extends Observable {
      * @param fc la figure en cours
      */
     public void construit(FigureColoree fc) {
-        figureEnCours = new FabricantFigure(fc, this);
+        if (fc instanceof Carre) {
+            figureEnCours = new FabricantCarre(fc, this);
+
+        }
+        else {
+            figureEnCours = new FabricantFigure(fc, this);
+        }
     }
 
     /**
