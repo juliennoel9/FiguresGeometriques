@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FabricantFigure implements MouseListener/*, MouseWheelListener */ {
+public class FabricantFigure implements MouseListener {
 
     private DessinModele ds;
 

@@ -5,6 +5,7 @@ import modele.FigureColoree;
 import modele.Point;
 import modele.Polygone;
 import javax.swing.SwingUtilities;
+import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -78,6 +79,9 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         if (sel != -1) {
             lfg.get(sel).deSelectionne();
         }
+        trans = false;
+        selected = null;
+        sel = -1;
         if (SwingUtilities.isLeftMouseButton(e)) {
             int i = 0;
             for (FigureColoree fg : lfg) {
@@ -91,10 +95,22 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
                         found = true;
                         break;
                     }
+                    for (Polygon p : fg.getrList()) {
+                        if (p.contains(last_x, last_y)) {
+                            this.selected = fg.getPointFromPoly(p);
+                            trans = true;
+                            sel = i;
+                            fg.selectionne();
+                            break;
+                        }
+                    }
+                    if (trans) {
+                        break;
+                    }
                 }
                 i++;
             }
-            if (!found) {
+            if (!found && !trans) {
                 if (figureSelection() != null) {
                     figureSelection().deSelectionne();
                     dm.update();
@@ -106,7 +122,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        dm.update();
     }
 
     @Override
@@ -121,20 +137,28 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e) && sel != -1) {
-            int difX = e.getX() - last_x;
-            int difY = e.getY() - last_y;
-            for (Point p : lfg.get(sel).getPoints()) {
-                p.incrementerY(difY);
-                p.incrementerX(difX);
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            if (selected != null) {
+                int difX = e.getX() - last_x;
+                int difY = e.getY() - last_y;
+                selected.translater(difX, difY);
             }
-            dm.update();
+            else {
+                if (sel != -1) {
+                    int difX = e.getX() - last_x;
+                    int difY = e.getY() - last_y;
+                    for (Point p : lfg.get(sel).getPoints()) {
+                        p.incrementerY(difY);
+                        p.incrementerX(difX);
+                    }
+                }
+            }
 
+            dm.update();
             last_y = e.getY();
             last_x = e.getX();
-
-
         }
+
     }
 
     @Override
