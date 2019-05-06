@@ -2,15 +2,15 @@ package modele;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Polygon;
+import java.util.*;
 
 public abstract class FigureColoree {
 
     /**
      * Taille des petit carée
      */
-    private final static int TAILLE_CARRE_SELECTION = 5;
+    private final static int TAILLE_CARRE_SELECTION = 8;
 
     /**
      * Couleur de la figure
@@ -20,17 +20,25 @@ public abstract class FigureColoree {
     /**
      * Point de la figure
      */
-    protected List<Point> tab_mem;
-
+    protected List<Point>         tab_mem;
+    /**
+     * Liste des rectangles, change a chaque affichage des rectangle de selection, set a vide dans les autres cas
+     */
+    private   Map<Polygon, Point> rList;
     /**
      * Pour savoir si la figure est selectioner
      */
-    private boolean selected;
+    private   boolean             selected;
 
     public FigureColoree() {
+        this.rList = new HashMap<>();
         this.selected = false;
         this.tab_mem = new ArrayList<>();
         this.couleur = Color.BLACK;
+    }
+
+    public Set<Polygon> getrList() {
+        return rList.keySet();
     }
 
     /**
@@ -59,21 +67,30 @@ public abstract class FigureColoree {
      */
     public abstract void modifierPoints(List<Point> points);
 
-    /**
-     * Permet d'afficher les carré si la figure est selectionner
-     *
-     * @param g le graphique
-     */
+    public Point getPointFromPoly(Polygon p) {
+        return rList.get(p);
+    }
+
     public void affiche(Graphics g) {
+        rList.clear();
         if (selected) {
             for (Point p : tab_mem) {
-                g.setColor(Color.GRAY);
-                g.drawRect(
+                int[] x = {
+                        p.getX() + TAILLE_CARRE_SELECTION / 2,
                         p.getX() - TAILLE_CARRE_SELECTION / 2,
+                        p.getX() - TAILLE_CARRE_SELECTION / 2,
+                        p.getX() + TAILLE_CARRE_SELECTION / 2
+                };
+                int[] y = {
                         p.getY() - TAILLE_CARRE_SELECTION / 2,
-                        TAILLE_CARRE_SELECTION,
-                        TAILLE_CARRE_SELECTION
-                );
+                        p.getY() - TAILLE_CARRE_SELECTION / 2,
+                        p.getY() + TAILLE_CARRE_SELECTION / 2,
+                        p.getY() + TAILLE_CARRE_SELECTION / 2
+                };
+                Polygon r = new Polygon(x, y, 4);
+                rList.put(r, p);
+                g.setColor(Color.GRAY);
+                g.drawPolygon(r);
             }
         }
     }
