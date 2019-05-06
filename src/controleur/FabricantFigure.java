@@ -17,17 +17,17 @@ public class FabricantFigure implements MouseListener {
     /**
      * Dessin Modele du Fabricant Figure
      */
-    private DessinModele ds;
+    protected DessinModele ds;
 
     /**
      * Figure Coloree en cours de fabrication
      */
-    private FigureColoree figureEnCours;
+    protected FigureColoree figureEnCours;
 
     /**
      * Liste de stockage des points ou l'on a clique
      */
-    private List<Point> pointsCliques;
+    protected List<Point> pointsCliques;
 
     /**
      * Nombre de clique qui s'incremente a chaque clique
@@ -70,7 +70,9 @@ public class FabricantFigure implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         nbClique++;
-        panneauChoix = ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix();
+        if (panneauChoix == null) {
+            panneauChoix = ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix();
+        }
         figureEnCours.changeCouleur(panneauChoix.getCouleur());
         System.out.println("Clique n°" + nbClique + " / " + figureEnCours.nbClics());
         pointsCliques.add(new Point(e.getX(), e.getY()));
