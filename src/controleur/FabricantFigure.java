@@ -14,16 +14,36 @@ import java.util.List;
 
 public class FabricantFigure implements MouseListener {
 
+    /**
+     * Dessin Modele du Fabricant Figure
+     */
     private DessinModele ds;
 
+    /**
+     * Figure Coloree en cours de fabrication
+     */
     private FigureColoree figureEnCours;
 
+    /**
+     * Liste de stockage des points ou l'on a clique
+     */
     private List<Point> pointsCliques;
 
+    /**
+     * Nombre de clique qui s'incremente a chaque clique
+     */
     private int nbClique;
 
+    /**
+     * Panneau Choix de la fenetre
+     */
     private PanneauChoix panneauChoix;
 
+    /**
+     * Constructeur de la classe Fabricant Figure
+     * @param figureEnCours Figure coloree en cours
+     * @param ds Dessin Modele
+     */
     public FabricantFigure(FigureColoree figureEnCours, DessinModele ds) {
         this.ds = ds;
         this.figureEnCours = figureEnCours;

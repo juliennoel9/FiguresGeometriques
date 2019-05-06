@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+/**
+ * Classe Principale qui lance l'application
+ */
 public class Fenetre extends JFrame {
 
     private VueDessin vdessin;

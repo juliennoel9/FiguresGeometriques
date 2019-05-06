@@ -9,6 +9,9 @@ import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Classe representant une Vue Dessin
+ */
 public class VueDessin extends JPanel implements Observer {
 
     /**

@@ -68,11 +68,19 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         this.sel = -1;
     }
 
+    /**
+     * Litenner du bouton clique de la souris
+     * @param e Evenement de la souris
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
 
     }
 
+    /**
+     * Litenner du bouton enfonce de la souris
+     * @param e Evenement de la souris
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         boolean found = false;
@@ -131,6 +139,10 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         }
     }
 
+    /**
+     * Litenner du bouton relache de la souris
+     * @param e Evenement de la souris
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         dm.update();
@@ -146,6 +158,10 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     }
 
+    /**
+     * Litenner du bouton deplace de la souris
+     * @param e Evenement de la souris
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
@@ -171,15 +187,25 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     }
 
+
     @Override
     public void mouseMoved(MouseEvent e) {
 
     }
 
+    /**
+     * Methode retournant le nombre de figures presentes dans la liste
+     * @return Nombre de figures dans la liste
+     */
     public int nbFigures() {
         return this.lfg.size();
     }
 
+    /**
+     * Methode permettant de retourner la Figure Coloree actuellement
+     * selectionnee dans la liste
+     * @return Figure Coloree selectionnee
+     */
     public FigureColoree figureSelection() {
         if (this.sel != -1) {
             return this.lfg.get(this.sel);
@@ -189,6 +215,9 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         }
     }
 
+    /**
+     * Methode permettant de selectionner la prochaine figure dans la liste
+     */
     public void selectionProchaineFigure() {
         this.sel += 1;
     }

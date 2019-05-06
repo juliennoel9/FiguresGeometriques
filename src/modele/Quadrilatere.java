@@ -1,5 +1,8 @@
 package modele;
 
+/**
+ * Classe representant un quadrilatere
+ */
 public class Quadrilatere extends Polygone {
 
     @Override

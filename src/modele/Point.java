@@ -1,5 +1,8 @@
 package modele;
 
+/**
+ * Classe representant un Point
+ */
 public class Point {
 
     /**
@@ -103,6 +106,10 @@ public class Point {
         return Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2));
     }
 
+    /**
+     * Methode toString permettant d'afficher un point
+     * @return Affichage du point
+     */
     @Override
     public String toString() {
         return "Point{" + "x=" + x

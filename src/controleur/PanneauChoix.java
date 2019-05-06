@@ -10,6 +10,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
+/**
+ * Classe representant un Panneau Choix
+ */
 public class PanneauChoix extends JPanel {
 
     /**
@@ -47,6 +50,9 @@ public class PanneauChoix extends JPanel {
      */
     private Color colorSelected;
 
+    /**
+     * Manipulateur de Formes
+     */
     private ManipulateurFormes manipulateurFormes;
 
     /**
@@ -159,7 +165,7 @@ public class PanneauChoix extends JPanel {
 
 
     /**
-     * permet de reselectioner l'objet a crée
+     * Permet de reselectioner l'objet a crée
      */
     public void reCreateObject() {
         formes.setSelectedIndex(formes.getSelectedIndex());

@@ -5,10 +5,13 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.*;
 
+/**
+ * Classe representant une Figure Coloree
+ */
 public abstract class FigureColoree {
 
     /**
-     * Taille des petit carée
+     * Taille des petit carrés
      */
     private final static int TAILLE_CARRE_SELECTION = 8;
 
@@ -42,7 +45,7 @@ public abstract class FigureColoree {
     }
 
     /**
-     * getter de la figure
+     * Getter de la figure
      *
      * @return la couleur  de la figure
      */
@@ -51,6 +54,8 @@ public abstract class FigureColoree {
     }
 
     /**
+     * Methode abstraite permettant de retourner le nombre de points de la figure
+     *
      * @return le nombre de points
      */
     public abstract int nbPoints();
@@ -61,16 +66,25 @@ public abstract class FigureColoree {
     public abstract int nbClics();
 
     /**
-     * Permet de modifie les
+     * Permet de modifie les points
      *
-     * @param points les points a ajouté
+     * @param points Liste de points a ajouter
      */
     public abstract void modifierPoints(List<Point> points);
 
+    /**
+     *
+     * @param p
+     * @return
+     */
     public Point getPointFromPoly(Polygon p) {
         return rList.get(p);
     }
 
+    /**
+     * Methode permettant d'afficher les carres lorsqu'une figure est selectionnee
+     * @param g Graphics
+     */
     public void affiche(Graphics g) {
         rList.clear();
         if (selected) {

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * Classe representant un Dessin Modele
+ */
 public class DessinModele extends Observable {
 
     private List<FigureColoree> listFigureColore;
@@ -43,7 +46,7 @@ public class DessinModele extends Observable {
     }
 
     /**
-     * permet d'avoir la figure a l'index donnée, si l'index n'est pas bon il retourne null
+     * Permet d'avoir la figure a l'index donnée, si l'index n'est pas bon il retourne null
      *
      * @param index l'objet a get
      * @return la figure ou null
@@ -56,7 +59,7 @@ public class DessinModele extends Observable {
     }
 
     /**
-     * init la list a vide
+     * Init la liste a vide
      */
     public void initDessinModele() {
         listFigureColore = new ArrayList<>();
