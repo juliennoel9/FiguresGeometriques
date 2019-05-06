@@ -65,7 +65,17 @@ public abstract class FigureColoree {
      * @param g le graphique
      */
     public void affiche(Graphics g) {
-
+        if (selected) {
+            for (Point p : tab_mem) {
+                g.setColor(Color.GRAY);
+                g.drawRect(
+                        p.getX() - TAILLE_CARRE_SELECTION / 2,
+                        p.getY() - TAILLE_CARRE_SELECTION / 2,
+                        TAILLE_CARRE_SELECTION,
+                        TAILLE_CARRE_SELECTION
+                );
+            }
+        }
     }
 
 
@@ -90,5 +100,14 @@ public abstract class FigureColoree {
      */
     public void changeCouleur(Color color) {
         couleur = color;
+    }
+
+    public List<Point> getPoints() {
+        return tab_mem;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(tab_mem);
     }
 }

@@ -2,11 +2,14 @@ package controleur;
 
 import modele.DessinModele;
 import modele.FigureColoree;
-
+import modele.Point;
+import modele.Polygone;
+import javax.swing.SwingUtilities;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ManipulateurFormes implements MouseListener, MouseMotionListener {
@@ -15,6 +18,11 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
      * Liste de figures du modele
      */
     private List<FigureColoree> lfg;
+
+    /**
+     * Le point selectioner si c'est un point ou c'est null
+     */
+    private Point selected;
 
     /**
      * Modele
@@ -52,10 +60,11 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
      */
     private int sel;
 
-    public ManipulateurFormes(DessinModele dessinModele){
-        this.lfg=new ArrayList<>();
-        this.dm=dessinModele;
-        this.sel=-1;
+    public ManipulateurFormes(DessinModele dessinModele) {
+        this.lfg = new ArrayList<>(dessinModele.getListFigureColore());
+        Collections.reverse(lfg);
+        this.dm = dessinModele;
+        this.sel = -1;
     }
 
     @Override
@@ -65,7 +74,34 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        boolean found = false;
+        if (sel != -1) {
+            lfg.get(sel).deSelectionne();
+        }
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            int i = 0;
+            for (FigureColoree fg : lfg) {
+                if (fg instanceof Polygone) {
+                    last_x = e.getX();
+                    last_y = e.getY();
+                    if (((Polygone) fg).getP().contains(last_x, last_y)) {
+                        fg.selectionne();
+                        dm.update();
+                        sel = i;
+                        found = true;
+                        break;
+                    }
+                }
+                i++;
+            }
+            if (!found) {
+                if (figureSelection() != null) {
+                    figureSelection().deSelectionne();
+                    dm.update();
+                }
+                sel = -1;
+            }
+        }
     }
 
     @Override
@@ -85,7 +121,20 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (SwingUtilities.isLeftMouseButton(e) && sel != -1) {
+            int difX = e.getX() - last_x;
+            int difY = e.getY() - last_y;
+            for (Point p : lfg.get(sel).getPoints()) {
+                p.incrementerY(difY);
+                p.incrementerX(difX);
+            }
+            dm.update();
 
+            last_y = e.getY();
+            last_x = e.getX();
+
+
+        }
     }
 
     @Override
@@ -93,19 +142,20 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     }
 
-    public int nbFigures(){
+    public int nbFigures() {
         return this.lfg.size();
     }
 
-    public FigureColoree figureSelection(){
-        if (this.sel!=-1){
+    public FigureColoree figureSelection() {
+        if (this.sel != -1) {
             return this.lfg.get(this.sel);
-        }else {
+        }
+        else {
             return null;
         }
     }
 
-    public void selectionProchaineFigure(){
-        this.sel+=1;
+    public void selectionProchaineFigure() {
+        this.sel += 1;
     }
 }

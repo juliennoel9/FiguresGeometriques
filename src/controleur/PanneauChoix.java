@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.Random;
 
 public class PanneauChoix extends JPanel {
@@ -44,6 +46,8 @@ public class PanneauChoix extends JPanel {
      * Couleur en cours
      */
     private Color colorSelected;
+
+    private ManipulateurFormes manipulateurFormes;
 
     /**
      * Permet de crée un paneau choix avec tout les boutons / box
@@ -102,6 +106,9 @@ public class PanneauChoix extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(false);
                 supFigure();
+                manipulateurFormes = new ManipulateurFormes(dmodele);
+                vdessin.addMouseListener(manipulateurFormes);
+                vdessin.addMouseMotionListener(manipulateurFormes);
             }
         });
         couleurs.addActionListener(new ActionListener() {
@@ -110,10 +117,17 @@ public class PanneauChoix extends JPanel {
                 if (couleurs.getSelectedIndex() == 8) {
                     Color r = new Color(rand(), rand(), rand(), 255);
                     coulPerso = JColorChooser.showDialog(vdessin,
-                                                         "Choisissez votre couleur ! ", r
+                            "Choisissez votre couleur ! ", r
                     );
                 }
                 colorSelected = determineCouleur(couleurs.getSelectedIndex());
+                if (manipulateurFormes != null) {
+                    FigureColoree c = manipulateurFormes.figureSelection();
+                    if (c != null) {
+                        c.changeCouleur(colorSelected);
+                        dmodele.update();
+                    }
+                }
             }
 
             private int rand() {
@@ -164,7 +178,18 @@ public class PanneauChoix extends JPanel {
         if (figureEnCours != null) {
             figureEnCours = null;
             dmodele.finFigure();
-            vdessin.addMouseListener(null);
+        }
+        for (MouseListener ml : vdessin.getMouseListeners()) {
+            vdessin.removeMouseListener(ml);
+        }
+        for (MouseMotionListener mml : vdessin.getMouseMotionListeners()) {
+            vdessin.removeMouseMotionListener(mml);
+        }
+        if (manipulateurFormes != null) {
+            var t = manipulateurFormes.figureSelection();
+            if (t != null) {
+                manipulateurFormes.figureSelection().deSelectionne();
+            }
         }
     }
 
