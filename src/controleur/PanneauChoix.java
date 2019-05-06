@@ -67,7 +67,7 @@ public class PanneauChoix extends JPanel {
         this.colorSelected = Color.BLACK;
         dmodele = new DessinModele();
         dmodele.addObserver(vdessin);
-        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle"};
+        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle", "Carre"};
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -99,8 +99,8 @@ public class PanneauChoix extends JPanel {
         effacerSelection.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (manipulateurFormes != null){
-                    dmodele.delFigureColoree(manipulateurFormes.getLfg().get(manipulateurFormes.getLfg().indexOf(manipulateurFormes.figureSelection())));
+                if (manipulateurFormes != null) {
+                    dmodele.delFigureColoree(manipulateurFormes.figureSelection());
                     dmodele.update();
                 }
             }
@@ -169,6 +169,9 @@ public class PanneauChoix extends JPanel {
                 figureEnCours.changeCouleur(determineCouleur(couleurs.getSelectedIndex()));
                 dmodele.construit(figureEnCours);
                 vdessin.addMouseListener(dmodele.getFigureEnCours());
+                if (figureEnCours instanceof Carre) {
+                    vdessin.addMouseMotionListener((FabricantCarre) dmodele.getFigureEnCours());
+                }
             }
         });
 
@@ -274,6 +277,8 @@ public class PanneauChoix extends JPanel {
                 return new Triangle();
             case "Quadrilatere":
                 return new Quadrilatere();
+            case "Carre":
+                return new Carre();
             case "Cercle":
                 return new Cercle();
             default:

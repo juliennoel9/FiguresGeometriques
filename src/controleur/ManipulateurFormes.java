@@ -67,7 +67,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
     }
 
     /**
-     * Litenner du bouton clique de la souris
+     * Litener du bouton clique de la souris
      * @param e Evenement de la souris
      */
     @Override
@@ -76,7 +76,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
     }
 
     /**
-     * Litenner du bouton enfonce de la souris
+     * Litener du bouton enfonce de la souris
      * @param e Evenement de la souris
      */
     @Override
@@ -148,6 +148,13 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
                     break;
                 }
                 i++;
+            }
+            if (!found && !trans) {
+                if (figureSelection() != null) {
+                    figureSelection().deSelectionne();
+                    dm.update();
+                }
+                sel = -1;
             }
         }
     }
