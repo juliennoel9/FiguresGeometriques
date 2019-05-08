@@ -7,6 +7,9 @@ import java.util.List;
  */
 public class Rectangle extends Quadrilatere {
 
+    /**
+     * Constructeur vide
+     */
     public Rectangle() {
 
     }

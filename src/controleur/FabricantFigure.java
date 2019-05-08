@@ -77,11 +77,22 @@ public class FabricantFigure implements MouseListener {
         System.out.println("Clique n°" + nbClique + " / " + figureEnCours.nbClics());
         pointsCliques.add(new Point(e.getX(), e.getY()));
         if (nbClique == figureEnCours.nbClics()) {
-            figureEnCours.modifierPoints(pointsCliques);
-            ds.addFigureColore(figureEnCours);
-            ((VueDessin) e.getSource()).removeMouseListener(this);
-            panneauChoix.reCreateObject();
-            ds.finFigure();
+            if (figureEnCours instanceof Trait) {
+                ((Trait) figureEnCours).setpAx(pointsCliques.get(0).getX());
+                ((Trait) figureEnCours).setpAy(pointsCliques.get(0).getY());
+                ((Trait) figureEnCours).setpBx(pointsCliques.get(1).getX());
+                ((Trait) figureEnCours).setpBy(pointsCliques.get(1).getY());
+                ds.addFigureColore(figureEnCours);
+                ((VueDessin) e.getSource()).removeMouseListener(this);
+                panneauChoix.reCreateObject();
+                ds.finFigure();
+            } else {
+                figureEnCours.modifierPoints(pointsCliques);
+                ds.addFigureColore(figureEnCours);
+                ((VueDessin) e.getSource()).removeMouseListener(this);
+                panneauChoix.reCreateObject();
+                ds.finFigure();
+            }
         }
         ds.update();
     }

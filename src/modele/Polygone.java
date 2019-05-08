@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class Polygone extends FigureColoree {
 
     /**
-     * Le polygone
+     * Constructeur vide
      */
     private Polygon p;
 
