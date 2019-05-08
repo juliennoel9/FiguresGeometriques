@@ -1,9 +1,10 @@
 package controleur;
 
 import modele.*;
+import modele.Rectangle;
 import vue.VueDessin;
 import javax.swing.*;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -55,7 +56,15 @@ public class PanneauChoix extends JPanel {
      */
     private ManipulateurFormes manipulateurFormes;
 
+    /**
+     * JButton permettant d'effacer la figure selectionnee
+     */
     private JButton effacerSelection;
+
+    /**
+     * JButton permettant d'effacer toutes les figures ainsi que les traces a main leve
+     */
+    private JButton effacerTout;
 
     /**
      * Permet de crée un paneau choix avec tout les boutons / box
@@ -67,7 +76,7 @@ public class PanneauChoix extends JPanel {
         this.colorSelected = Color.BLACK;
         dmodele = new DessinModele();
         dmodele.addObserver(vdessin);
-        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle", "Carre"};
+        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle", "Carre","Trait"};
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -106,7 +115,17 @@ public class PanneauChoix extends JPanel {
             }
         });
 
-        mainLevee.setSelected(true);
+        effacerTout = new JButton("Effacer Tout");
+        effacerTout.setEnabled(true);
+
+        effacerTout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dmodele.getListFigureColore().clear();
+                dmodele.update();
+            }
+        });
+
         newFig.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,7 +141,9 @@ public class PanneauChoix extends JPanel {
                 formes.setEnabled(false);
                 supFigure();
                 effacerSelection.setEnabled(false);
-                //todo a completer pour le dessin
+                TraceurForme traceurForme = new TraceurForme(dmodele);
+                vdessin.addMouseMotionListener(traceurForme);
+                vdessin.addMouseListener(traceurForme);
             }
         });
         manip.addActionListener(new ActionListener() {
@@ -179,6 +200,7 @@ public class PanneauChoix extends JPanel {
         j.add(mainLevee);
         j.add(manip);
         this.add(j);
+        j2.add(effacerTout);
         j2.add(effacerSelection);
         j2.add(formes);
         j2.add(couleurs);
@@ -281,6 +303,8 @@ public class PanneauChoix extends JPanel {
                 return new Carre();
             case "Cercle":
                 return new Cercle();
+            case "Trait":
+                return new Trait();
             default:
                 return null;
         }
