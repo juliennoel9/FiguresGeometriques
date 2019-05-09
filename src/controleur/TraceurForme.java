@@ -2,10 +2,10 @@ package controleur;
 
 import main.Fenetre;
 import modele.DessinModele;
+import modele.Trait;
 import vue.VueDessin;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;

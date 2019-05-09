@@ -3,6 +3,7 @@ package modele;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
+import java.awt.event.MouseEvent;
 import java.util.*;
 
 /**
@@ -73,9 +74,10 @@ public abstract class FigureColoree {
     public abstract void modifierPoints(List<Point> points);
 
     /**
+     * Permet d'avoir un point par rapport a une repesentation de lui meme en polygon
      *
-     * @param p
-     * @return
+     * @param p le polygon repesentant le point
+     * @return le point determiner par le polygon
      */
     public Point getPointFromPoly(Polygon p) {
         return rList.get(p);
@@ -83,6 +85,7 @@ public abstract class FigureColoree {
 
     /**
      * Methode permettant d'afficher les carres lorsqu'une figure est selectionnee
+     *
      * @param g Graphics
      */
     public void affiche(Graphics g) {
@@ -136,6 +139,8 @@ public abstract class FigureColoree {
     public List<Point> getPoints() {
         return tab_mem;
     }
+
+    public abstract boolean isInSelection(MouseEvent e);
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package modele;
 
 import java.awt.Graphics;
 import java.awt.Polygon;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public abstract class Polygone extends FigureColoree {
@@ -35,6 +36,17 @@ public abstract class Polygone extends FigureColoree {
         p = new Polygon(tabX, tabY, tab_mem.size());
         g.fillPolygon(p);
         super.affiche(g);
+    }
+
+    @Override
+    public boolean isInSelection(MouseEvent e) {
+        int last_x = e.getX();
+        int last_y = e.getY();
+        if (this.getP().contains(last_x, last_y)) {
+            this.selectionne();
+            return true;
+        }
+        return false;
     }
 
     /**

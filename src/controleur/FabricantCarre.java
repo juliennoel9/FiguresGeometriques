@@ -5,6 +5,7 @@ import modele.DessinModele;
 import modele.FigureColoree;
 import modele.Point;
 import vue.VueDessin;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -35,8 +36,8 @@ public class FabricantCarre extends FabricantFigure implements MouseMotionListen
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        ((VueDessin) e.getSource()).removeMouseListener(this);
-        ((VueDessin) e.getSource()).removeMouseMotionListener(this);
+        ((JPanel) e.getSource()).removeMouseListener(this);
+        ((JPanel) e.getSource()).removeMouseMotionListener(this);
         ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix().reCreateObject();
         ds.finFigure();
     }

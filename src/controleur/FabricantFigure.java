@@ -4,7 +4,6 @@ import main.Fenetre;
 import modele.DessinModele;
 import modele.FigureColoree;
 import modele.Point;
-import modele.Rectangle;
 import vue.VueDessin;
 import javax.swing.SwingUtilities;
 import java.awt.event.MouseEvent;
@@ -41,8 +40,9 @@ public class FabricantFigure implements MouseListener {
 
     /**
      * Constructeur de la classe Fabricant Figure
+     *
      * @param figureEnCours Figure coloree en cours
-     * @param ds Dessin Modele
+     * @param ds            Dessin Modele
      */
     public FabricantFigure(FigureColoree figureEnCours, DessinModele ds) {
         this.ds = ds;
@@ -77,22 +77,11 @@ public class FabricantFigure implements MouseListener {
         System.out.println("Clique n°" + nbClique + " / " + figureEnCours.nbClics());
         pointsCliques.add(new Point(e.getX(), e.getY()));
         if (nbClique == figureEnCours.nbClics()) {
-            if (figureEnCours instanceof Trait) {
-                ((Trait) figureEnCours).setpAx(pointsCliques.get(0).getX());
-                ((Trait) figureEnCours).setpAy(pointsCliques.get(0).getY());
-                ((Trait) figureEnCours).setpBx(pointsCliques.get(1).getX());
-                ((Trait) figureEnCours).setpBy(pointsCliques.get(1).getY());
-                ds.addFigureColore(figureEnCours);
-                ((VueDessin) e.getSource()).removeMouseListener(this);
-                panneauChoix.reCreateObject();
-                ds.finFigure();
-            } else {
-                figureEnCours.modifierPoints(pointsCliques);
-                ds.addFigureColore(figureEnCours);
-                ((VueDessin) e.getSource()).removeMouseListener(this);
-                panneauChoix.reCreateObject();
-                ds.finFigure();
-            }
+            figureEnCours.modifierPoints(pointsCliques);
+            ds.addFigureColore(figureEnCours);
+            ((VueDessin) e.getSource()).removeMouseListener(this);
+            panneauChoix.reCreateObject();
+            ds.finFigure();
         }
         ds.update();
     }

@@ -20,7 +20,7 @@ public class Fenetre extends JFrame {
         setPreferredSize(new Dimension(longeur, largeur));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        setMinimumSize(new Dimension(425, 493));
+        setMinimumSize(new Dimension(500, 493));
         vdessin = new VueDessin();
         choix = new PanneauChoix(vdessin);
         add(vdessin, BorderLayout.CENTER);

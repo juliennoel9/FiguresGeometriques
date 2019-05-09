@@ -1,7 +1,9 @@
 package controleur;
 
-import modele.*;
-
+import modele.Cercle;
+import modele.DessinModele;
+import modele.FigureColoree;
+import modele.Point;
 import javax.swing.SwingUtilities;
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;
@@ -68,6 +70,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     /**
      * Litener du bouton clique de la souris
+     *
      * @param e Evenement de la souris
      */
     @Override
@@ -77,6 +80,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     /**
      * Litener du bouton enfonce de la souris
+     *
      * @param e Evenement de la souris
      */
     @Override
@@ -91,32 +95,13 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         if (SwingUtilities.isLeftMouseButton(e)) {
             int i = 0;
             for (FigureColoree fg : lfg) {
-                if (fg instanceof Polygone) {
-                    last_x = e.getX();
-                    last_y = e.getY();
-                    if (((Polygone) fg).getP().contains(last_x, last_y)) {
-                        fg.selectionne();
-                        dm.update();
-                        sel = i;
-                        found = true;
-                        break;
-                    }
-
-                }
-                if (fg instanceof Cercle){
-                    last_x = e.getX();
-                    last_y = e.getY();
-                    Point p1 = fg.getPoints().get(0);
-                    Point p2 = fg.getPoints().get(1);
-                    int distance = (int)p1.distance(p2);
-                    java.awt.Rectangle r = new java.awt.Rectangle(p1.getX(),p1.getY(),distance,distance);
-                    if (r.contains(last_x,last_y)){
-                        fg.selectionne();
-                        dm.update();
-                        sel=i;
-                        found=true;
-                        break;
-                    }
+                last_y = e.getY();
+                last_x = e.getX();
+                if (fg.isInSelection(e)) {
+                    dm.update();
+                    sel = i;
+                    found = true;
+                    break;
                 }
                 i++;
             }
@@ -161,6 +146,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     /**
      * Litenner du bouton relache de la souris
+     *
      * @param e Evenement de la souris
      */
     @Override
@@ -180,6 +166,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     /**
      * Litenner du bouton deplace de la souris
+     *
      * @param e Evenement de la souris
      */
     @Override
@@ -199,11 +186,12 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
                 if (lfg.get(sel) instanceof Cercle) {
                     int difX = e.getX() - last_x;
                     int difY = e.getY() - last_y;
-                    if (selected.equals(figureSelection().getPoints().get(0))){
-                        for (Point p : figureSelection().getPoints()){
+                    if (selected.equals(figureSelection().getPoints().get(0))) {
+                        for (Point p : figureSelection().getPoints()) {
                             p.translater(difX, difY);
                         }
-                    }else{
+                    }
+                    else {
                         selected.translater(difX, difY);
                     }
 
@@ -229,6 +217,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     /**
      * Methode retournant le nombre de figures presentes dans la liste
+     *
      * @return Nombre de figures dans la liste
      */
     public int nbFigures() {
@@ -238,6 +227,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
     /**
      * Methode permettant de retourner la Figure Coloree actuellement
      * selectionnee dans la liste
+     *
      * @return Figure Coloree selectionnee
      */
     public FigureColoree figureSelection() {
@@ -258,6 +248,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     /**
      * Getter permettant de retourner la liste de figure de l'instance
+     *
      * @return Liste de figures
      */
     public List<FigureColoree> getLfg() {
