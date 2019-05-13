@@ -4,6 +4,7 @@ import controleur.FabricantCarre;
 import controleur.FabricantFigure;
 
 import java.io.*;
+import controleur.FabricantQuelconque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -90,13 +91,7 @@ public class DessinModele extends Observable {
      * @param fc la figure en cours
      */
     public void construit(FigureColoree fc) {
-        if (fc instanceof Carre) {
-            figureEnCours = new FabricantCarre(fc, this);
-
-        }
-        else {
-            figureEnCours = new FabricantFigure(fc, this);
-        }
+       figureEnCours = fc.getContructeur(this);
     }
 
     /**

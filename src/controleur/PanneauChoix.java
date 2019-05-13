@@ -1,10 +1,9 @@
 package controleur;
 
 import modele.*;
-import modele.Rectangle;
 import vue.VueDessin;
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -63,11 +62,6 @@ public class PanneauChoix extends JPanel {
     private JButton effacerSelection;
 
     /**
-     * JButton permettant d'effacer toutes les figures ainsi que les traces a main leve
-     */
-    private JButton effacerTout;
-
-    /**
      * Permet de crée un paneau choix avec tout les boutons / box
      *
      * @param vdessin la vue dessin principale
@@ -77,7 +71,7 @@ public class PanneauChoix extends JPanel {
         this.colorSelected = Color.BLACK;
         dmodele = new DessinModele();
         dmodele.addObserver(vdessin);
-        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle", "Carre","Trait"};
+        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle", "Carre","Trait","Polygone"};
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -116,7 +110,7 @@ public class PanneauChoix extends JPanel {
             }
         });
 
-        effacerTout = new JButton("Effacer Tout");
+        JButton effacerTout = new JButton("Effacer Tout");
         effacerTout.setEnabled(true);
 
         JButton sauvegarder = new JButton("Sauvegarder");
@@ -336,6 +330,8 @@ public class PanneauChoix extends JPanel {
                 return new Cercle();
             case "Trait":
                 return new Trait();
+            case "Polygone":
+                return new PolygoneQuelconque();
             default:
                 return null;
         }
