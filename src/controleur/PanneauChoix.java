@@ -3,6 +3,7 @@ package controleur;
 import modele.*;
 import vue.VueDessin;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -71,7 +72,7 @@ public class PanneauChoix extends JPanel {
         this.colorSelected = Color.BLACK;
         dmodele = new DessinModele();
         dmodele.addObserver(vdessin);
-        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle", "Carre","Trait","Polygone"};
+        tabForme = new String[]{"Rectangle", "Triangle", "Quadrilatere", "Cercle", "Carre", "Trait", "Polygone"};
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -123,9 +124,16 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    dmodele.chargerFigures("sauvegardeFigures");
-                } catch (IOException | ClassNotFoundException e1) {
-                    JOptionPane.showMessageDialog(vdessin,"Aucun fichier de sauvegarde disponible");
+                    JFileChooser fc = new JFileChooser();
+                    fc.setFileFilter(new FileNameExtensionFilter("IHM extension", "ihm"));
+                    int a = fc.showDialog(vdessin, "Set File directory");
+                    if (a == 0) {
+                        String s = fc.getSelectedFile().getAbsolutePath();
+                        dmodele.chargerFigures(s.endsWith(".ihm") ? s : s + ".ihm");
+                    }
+                }
+                catch (IOException | ClassNotFoundException e1) {
+                    JOptionPane.showMessageDialog(vdessin, "Aucun fichier de sauvegarde disponible");
                 }
             }
         });
@@ -134,9 +142,16 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    dmodele.sauvegarderFigures("sauvegardeFigures", dmodele.getListFigureColore());
-                } catch (IOException e1) {
-                    JOptionPane.showMessageDialog(vdessin,"Erreur lors de la sauvegarde");
+                    JFileChooser fc = new JFileChooser();
+                    fc.setFileFilter(new FileNameExtensionFilter("IHM extension", "ihm"));
+                    int a = fc.showDialog(vdessin, "Get File directory");
+                    if (a == 0) {
+                        String s = fc.getSelectedFile().getAbsolutePath();
+                        dmodele.sauvegarderFigures(s.endsWith(".ihm") ? s : s + ".ihm", dmodele.getListFigureColore());
+                    }
+                }
+                catch (IOException e1) {
+                    JOptionPane.showMessageDialog(vdessin, "Erreur lors de la sauvegarde");
                 }
             }
         });
@@ -186,7 +201,7 @@ public class PanneauChoix extends JPanel {
                 if (couleurs.getSelectedIndex() == 8) {
                     Color r = new Color(rand(), rand(), rand(), 255);
                     coulPerso = JColorChooser.showDialog(vdessin,
-                                                         "Choisissez votre couleur ! ", r
+                            "Choisissez votre couleur ! ", r
                     );
                 }
                 colorSelected = determineCouleur(couleurs.getSelectedIndex());

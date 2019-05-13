@@ -3,9 +3,8 @@ package vue;
 import controleur.ManipulateurFormes;
 import modele.DessinModele;
 import modele.FigureColoree;
-import javax.swing.JPanel;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
