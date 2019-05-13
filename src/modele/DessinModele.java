@@ -2,6 +2,8 @@ package modele;
 
 import controleur.FabricantCarre;
 import controleur.FabricantFigure;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -110,5 +112,20 @@ public class DessinModele extends Observable {
      */
     public void finFigure() {
         figureEnCours = null;
+    }
+
+    public void sauvegarderFigures(String destination, List<FigureColoree> listFigureColore) throws IOException {
+        ObjectOutputStream d = new ObjectOutputStream(new FileOutputStream(destination));
+        d.writeObject(listFigureColore);
+        d.close();
+    }
+
+    public void chargerFigures(String source) throws IOException, ClassNotFoundException {
+        ObjectInputStream di = new ObjectInputStream(new FileInputStream(source));
+        List<FigureColoree> figureColoreeList = (List<FigureColoree>)(di.readObject());
+        figureColoreeList.forEach(FigureColoree::deSelectionne);
+        di.close();
+        this.listFigureColore=figureColoreeList;
+        update();
     }
 }

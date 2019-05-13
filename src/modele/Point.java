@@ -1,9 +1,11 @@
 package modele;
 
+import java.io.Serializable;
+
 /**
  * Classe representant un Point
  */
-public class Point {
+public class Point implements Serializable {
 
     /**
      * La valeur de x

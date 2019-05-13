@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -118,6 +119,34 @@ public class PanneauChoix extends JPanel {
         effacerTout = new JButton("Effacer Tout");
         effacerTout.setEnabled(true);
 
+        JButton sauvegarder = new JButton("Sauvegarder");
+        sauvegarder.setEnabled(true);
+
+        JButton charger = new JButton("Charger");
+        charger.setEnabled(true);
+
+        charger.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    dmodele.chargerFigures("sauvegardeFigures");
+                } catch (IOException | ClassNotFoundException e1) {
+                    JOptionPane.showMessageDialog(vdessin,"Aucun fichier de sauvegarde disponible");
+                }
+            }
+        });
+
+        sauvegarder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    dmodele.sauvegarderFigures("sauvegardeFigures", dmodele.getListFigureColore());
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(vdessin,"Erreur lors de la sauvegarde");
+                }
+            }
+        });
+
         effacerTout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,6 +233,8 @@ public class PanneauChoix extends JPanel {
         j2.add(effacerSelection);
         j2.add(formes);
         j2.add(couleurs);
+        j2.add(sauvegarder);
+        j2.add(charger);
         this.add(j2);
     }
 
