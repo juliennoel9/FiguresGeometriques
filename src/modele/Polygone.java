@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.FabricantFigure;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;
@@ -10,7 +11,7 @@ public abstract class Polygone extends FigureColoree {
     /**
      * Constructeur vide
      */
-    private Polygon p;
+    protected Polygon p;
 
     /**
      * Constructeur qui initialise le poly
@@ -47,6 +48,11 @@ public abstract class Polygone extends FigureColoree {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public FabricantFigure getContructeur(DessinModele dessinModele) {
+        return new FabricantFigure(this, dessinModele);
     }
 
     /**

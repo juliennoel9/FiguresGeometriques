@@ -31,12 +31,12 @@ public class FabricantFigure implements MouseListener {
     /**
      * Nombre de clique qui s'incremente a chaque clique
      */
-    private int nbClique;
+    protected int nbClique;
 
     /**
      * Panneau Choix de la fenetre
      */
-    private PanneauChoix panneauChoix;
+    protected PanneauChoix panneauChoix;
 
     /**
      * Constructeur de la classe Fabricant Figure

@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.FabricantFigure;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -93,6 +94,11 @@ public class Trait extends FigureColoree {
     @Override
     public boolean isInSelection(MouseEvent e) {
         return false;
+    }
+
+    @Override
+    public FabricantFigure getContructeur(DessinModele dessinModele) {
+        return new FabricantFigure(this, dessinModele);
     }
 
     /**

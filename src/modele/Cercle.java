@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.FabricantFigure;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -61,4 +62,10 @@ public class Cercle extends FigureColoree {
         }
         return false;
     }
+
+    @Override
+    public FabricantFigure getContructeur(DessinModele dessinModele) {
+        return new FabricantFigure(this, dessinModele);
+    }
+
 }

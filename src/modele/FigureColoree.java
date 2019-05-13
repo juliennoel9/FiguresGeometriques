@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.FabricantFigure;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
@@ -142,6 +143,8 @@ public abstract class FigureColoree implements Serializable {
     }
 
     public abstract boolean isInSelection(MouseEvent e);
+
+    public abstract FabricantFigure getContructeur(DessinModele dessinModele);
 
     @Override
     public String toString() {

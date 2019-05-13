@@ -1,5 +1,7 @@
 package modele;
 
+import controleur.FabricantCarre;
+import controleur.FabricantFigure;
 import java.util.List;
 
 public class Carre extends Polygone {
@@ -21,5 +23,10 @@ public class Carre extends Polygone {
         points.add(d);
         super.modifierPoints(points);
 
+    }
+
+    @Override
+    public FabricantFigure getContructeur(DessinModele ds) {
+        return new FabricantCarre(this, ds);
     }
 }
