@@ -112,7 +112,7 @@ public class PanneauChoix extends JPanel {
         });
 
         JButton effacerTout = new JButton("Effacer Tout");
-        effacerTout.setEnabled(true);
+        effacerTout.setEnabled(false);
 
         JButton sauvegarder = new JButton("Sauvegarder");
         sauvegarder.setEnabled(true);
@@ -171,6 +171,7 @@ public class PanneauChoix extends JPanel {
                 supFigure();
                 formes.setSelectedIndex(formes.getSelectedIndex());
                 effacerSelection.setEnabled(false);
+                effacerTout.setEnabled(false);
             }
         });
         mainLevee.addActionListener(new ActionListener() {
@@ -179,6 +180,7 @@ public class PanneauChoix extends JPanel {
                 formes.setEnabled(false);
                 supFigure();
                 effacerSelection.setEnabled(false);
+                effacerTout.setEnabled(false);
                 TraceurForme traceurForme = new TraceurForme(dmodele);
                 vdessin.addMouseMotionListener(traceurForme);
                 vdessin.addMouseListener(traceurForme);
@@ -189,6 +191,7 @@ public class PanneauChoix extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(false);
                 effacerSelection.setEnabled(true);
+                effacerTout.setEnabled(true);
                 supFigure();
                 manipulateurFormes = new ManipulateurFormes(dmodele);
                 vdessin.addMouseListener(manipulateurFormes);
