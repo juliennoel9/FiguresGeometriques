@@ -3,6 +3,7 @@ package modele;
 import controleur.FabricantCarre;
 import controleur.FabricantFigure;
 
+import java.awt.Graphics;
 import java.io.*;
 import controleur.FabricantQuelconque;
 import java.util.ArrayList;
@@ -122,5 +123,12 @@ public class DessinModele extends Observable {
         di.close();
         this.listFigureColore=figureColoreeList;
         update();
+    }
+
+    public void drawFigures(Graphics g) {
+        for (FigureColoree figureColoree : listFigureColore) {
+            g.setColor(figureColoree.getCouleur());
+            figureColoree.affiche(g);
+        }
     }
 }

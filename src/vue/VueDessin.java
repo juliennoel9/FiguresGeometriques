@@ -51,10 +51,7 @@ public class VueDessin extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (dessin != null) {
-            for (FigureColoree figureColoree : dessin.getListFigureColore()) {
-                g.setColor(figureColoree.getCouleur());
-                figureColoree.affiche(g);
-            }
+           dessin.drawFigures(g);
         }
     }
 }
