@@ -53,20 +53,22 @@ public class PanneauChoix extends JPanel {
     private Color colorSelected;
 
     /**
+     * Bouttons d'effacement
+     */
+    private JMenuItem effacerTout, effacerSelection;
+
+    /**
+     * Bouton de controle de sauvegarde
+     */
+    private JMenuItem sauvegarder, charger;
+
+    /**
      * Manipulateur de Formes
      */
     private ManipulateurFormes manipulateurFormes;
 
-    /**
-     * JButton permettant d'effacer la figure selectionnee
-     */
-    private JButton effacerSelection;
+    private Menu menu;
 
-    /**
-     * Permet de crée un paneau choix avec tout les boutons / box
-     *
-     * @param vdessin la vue dessin principale
-     */
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
         this.colorSelected = Color.BLACK;
@@ -98,7 +100,7 @@ public class PanneauChoix extends JPanel {
         b.add(mainLevee);
         b.add(manip);
 
-        effacerSelection = new JButton("Effacer");
+        effacerSelection = new JMenuItem("Effacer");
         effacerSelection.setEnabled(false);
 
         effacerSelection.addActionListener(new ActionListener() {
@@ -111,13 +113,13 @@ public class PanneauChoix extends JPanel {
             }
         });
 
-        JButton effacerTout = new JButton("Effacer Tout");
+        effacerTout = new JMenuItem("Effacer Tout");
         effacerTout.setEnabled(false);
 
-        JButton sauvegarder = new JButton("Sauvegarder");
+        sauvegarder = new JMenuItem("Enregister sous ...");
         sauvegarder.setEnabled(true);
 
-        JButton charger = new JButton("Charger");
+        charger = new JMenuItem("Ouvrir ...");
         charger.setEnabled(true);
 
         charger.addActionListener(new ActionListener() {
@@ -236,7 +238,6 @@ public class PanneauChoix extends JPanel {
                 }
             }
         });
-
         j.add(newFig);
         j.add(mainLevee);
         j.add(manip);
@@ -250,6 +251,12 @@ public class PanneauChoix extends JPanel {
         this.add(j2);
     }
 
+    public Menu getMenuBar() {
+        if (menu == null) {
+            initMenu();
+        }
+        return menu;
+    }
 
     /**
      * Permet de reselectioner l'objet a crée
@@ -263,6 +270,30 @@ public class PanneauChoix extends JPanel {
      */
     public Color getCouleur() {
         return colorSelected;
+    }
+
+    private void initMenu() {
+        menu = new Menu();
+        JMenu file = new JMenu("Fichier");
+        file.add(sauvegarder);
+        file.add(charger);
+        menu.ajouterSousMenu(file);
+
+        JMenu suprimer = new JMenu("Supression");
+        suprimer.add(effacerSelection);
+        suprimer.add(effacerTout);
+        suprimer.add(suprimer);
+        menu.ajouterSousMenu(suprimer);
+
+        JMenu     aide    = new JMenu("Aide");
+        JMenuItem aideBut = new JMenuItem("Aide");
+        aide.addActionListener(e -> {
+            //page d'aide
+        });
+        aide.add(aideBut);
+        menu.ajouterSousMenu(aide);
+
+
     }
 
     /**

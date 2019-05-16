@@ -3,7 +3,6 @@ package main;
 import controleur.PanneauChoix;
 import vue.VueDessin;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -12,8 +11,8 @@ import java.awt.Dimension;
  */
 public class Fenetre extends JFrame {
 
-    private VueDessin vdessin;
-    private JPanel    choix;
+    private VueDessin    vdessin;
+    private PanneauChoix choix;
 
     public Fenetre(String title, int longeur, int largeur) {
         setTitle(title);
@@ -26,11 +25,12 @@ public class Fenetre extends JFrame {
         add(vdessin, BorderLayout.CENTER);
         add(choix, BorderLayout.NORTH);
         pack();
+        setJMenuBar(choix.getMenuBar());
         setVisible(true);
     }
 
     public PanneauChoix getChoix() {
-        return (PanneauChoix) choix;
+        return choix;
     }
 
     public static void main(String[] arguments) {
