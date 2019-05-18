@@ -81,7 +81,6 @@ public class FabricantFigure implements MouseListener {
             ds.addFigureColore(figureEnCours);
             ((VueDessin) e.getSource()).removeMouseListener(this);
             panneauChoix.reCreateObject();
-            ds.finFigure();
         }
         ds.update();
     }

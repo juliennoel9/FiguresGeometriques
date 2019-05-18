@@ -1,11 +1,7 @@
 package modele;
 
-import controleur.FabricantCarre;
-import controleur.FabricantFigure;
-
 import java.awt.Graphics;
 import java.io.*;
-import controleur.FabricantQuelconque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -17,7 +13,7 @@ public class DessinModele extends Observable {
 
     private List<FigureColoree> listFigureColore;
 
-    private FabricantFigure figureEnCours;
+    // private FabricantFigure figureEnCours;
 
     public DessinModele() {
         initDessinModele();
@@ -80,22 +76,6 @@ public class DessinModele extends Observable {
     }
 
     /**
-     * @return la figure en cours
-     */
-    public FabricantFigure getFigureEnCours() {
-        return figureEnCours;
-    }
-
-    /**
-     * Permet de construire une figure
-     *
-     * @param fc la figure en cours
-     */
-    public void construit(FigureColoree fc) {
-       figureEnCours = fc.getContructeur(this);
-    }
-
-    /**
      * Permet d'appeler l'observable
      */
     public void update() {
@@ -106,10 +86,9 @@ public class DessinModele extends Observable {
     /**
      * Permet de stop la création
      */
-    public void finFigure() {
+   /* public void finFigure() {
         figureEnCours = null;
-    }
-
+    }*/
     public void sauvegarderFigures(String destination, List<FigureColoree> listFigureColore) throws IOException {
         ObjectOutputStream d = new ObjectOutputStream(new FileOutputStream(destination));
         d.writeObject(listFigureColore);
@@ -117,11 +96,11 @@ public class DessinModele extends Observable {
     }
 
     public void chargerFigures(String source) throws IOException, ClassNotFoundException {
-        ObjectInputStream di = new ObjectInputStream(new FileInputStream(source));
-        List<FigureColoree> figureColoreeList = (List<FigureColoree>)(di.readObject());
+        ObjectInputStream   di                = new ObjectInputStream(new FileInputStream(source));
+        List<FigureColoree> figureColoreeList = (List<FigureColoree>) (di.readObject());
         figureColoreeList.forEach(FigureColoree::deSelectionne);
         di.close();
-        this.listFigureColore=figureColoreeList;
+        this.listFigureColore = figureColoreeList;
         update();
     }
 

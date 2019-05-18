@@ -39,7 +39,6 @@ public class FabricantCarre extends FabricantFigure implements MouseMotionListen
         ((JPanel) e.getSource()).removeMouseListener(this);
         ((JPanel) e.getSource()).removeMouseMotionListener(this);
         ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix().reCreateObject();
-        ds.finFigure();
     }
 
     @Override

@@ -7,8 +7,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.Random;
 
@@ -176,6 +174,8 @@ public class PanneauChoix extends JPanel {
                 effacerTout.setEnabled(false);
             }
         });
+
+        //todo rework
         mainLevee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -184,10 +184,12 @@ public class PanneauChoix extends JPanel {
                 effacerSelection.setEnabled(false);
                 effacerTout.setEnabled(false);
                 TraceurForme traceurForme = new TraceurForme(dmodele);
-                vdessin.addMouseMotionListener(traceurForme);
-                vdessin.addMouseListener(traceurForme);
+                vdessin.ajoutTraceur(traceurForme);
             }
         });
+
+
+        //todo Rework
         manip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -196,10 +198,12 @@ public class PanneauChoix extends JPanel {
                 effacerTout.setEnabled(true);
                 supFigure();
                 manipulateurFormes = new ManipulateurFormes(dmodele);
-                vdessin.addMouseListener(manipulateurFormes);
-                vdessin.addMouseMotionListener(manipulateurFormes);
+                vdessin.ajoutManip(manipulateurFormes);
             }
         });
+
+
+        //todo rework
         couleurs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -223,19 +227,16 @@ public class PanneauChoix extends JPanel {
                 return new Random().nextInt(255);
             }
         });
+
+
+        //todo rework
         formes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (vdessin.getMouseListeners().length != 0) {
-                    vdessin.removeMouseListener(vdessin.getMouseListeners()[0]);
-                }
+                vdessin.enleverListeners();
                 figureEnCours = creeFigure(formes.getSelectedIndex());
                 figureEnCours.changeCouleur(determineCouleur(couleurs.getSelectedIndex()));
-                dmodele.construit(figureEnCours);
-                vdessin.addMouseListener(dmodele.getFigureEnCours());
-                if (figureEnCours instanceof Carre) {
-                    vdessin.addMouseMotionListener((FabricantCarre) dmodele.getFigureEnCours());
-                }
+                vdessin.createFigure(figureEnCours);
             }
         });
         j.add(newFig);
@@ -296,20 +297,16 @@ public class PanneauChoix extends JPanel {
 
     }
 
+
     /**
      * Permet de suprimer la figure plus simplement
      */
     private void supFigure() {
         if (figureEnCours != null) {
             figureEnCours = null;
-            dmodele.finFigure();
+            //  dmodele.finFigure();
         }
-        for (MouseListener ml : vdessin.getMouseListeners()) {
-            vdessin.removeMouseListener(ml);
-        }
-        for (MouseMotionListener mml : vdessin.getMouseMotionListeners()) {
-            vdessin.removeMouseMotionListener(mml);
-        }
+        vdessin.enleverListeners();
         if (manipulateurFormes != null) {
             var t = manipulateurFormes.figureSelection();
             if (t != null) {
