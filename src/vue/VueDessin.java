@@ -7,11 +7,13 @@ import controleur.TraceurForme;
 import modele.Carre;
 import modele.DessinModele;
 import modele.FigureColoree;
-import javax.swing.JPanel;
-import java.awt.Dimension;
-import java.awt.Graphics;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -87,5 +89,18 @@ public class VueDessin extends JPanel implements Observer {
     public void ajoutTraceur(TraceurForme traceurForme) {
         addMouseMotionListener(traceurForme);
         addMouseListener(traceurForme);
+    }
+
+    public void openPDF() {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File("ip.pdf");
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this,"Aucune application pour ouvrir le PDF");
+            } catch (IllegalArgumentException iae){
+                JOptionPane.showMessageDialog(this,"Fichier inexistant");
+            }
+        }
     }
 }

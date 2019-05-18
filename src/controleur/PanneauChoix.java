@@ -1,12 +1,14 @@
 package controleur;
 
 import modele.*;
+import modele.Rectangle;
 import vue.VueDessin;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -34,11 +36,6 @@ public class PanneauChoix extends JPanel {
      * Tableau des string des formes
      */
     private String[] tabForme;
-
-    /**
-     * Couleur perso
-     */
-    private Color coulPerso;
 
     /**
      * Combo box des formes
@@ -209,7 +206,7 @@ public class PanneauChoix extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (couleurs.getSelectedIndex() == 8) {
                     Color r = new Color(rand(), rand(), rand(), 255);
-                    coulPerso = JColorChooser.showDialog(vdessin,
+                    colorSelected = JColorChooser.showDialog(vdessin,
                             "Choisissez votre couleur ! ", r
                     );
                 }
@@ -288,13 +285,14 @@ public class PanneauChoix extends JPanel {
 
         JMenu     aide    = new JMenu("Aide");
         JMenuItem aideBut = new JMenuItem("Aide");
-        aide.addActionListener(e -> {
-            //page d'aide
+        aideBut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vdessin.openPDF();
+            }
         });
         aide.add(aideBut);
         menu.ajouterSousMenu(aide);
-
-
     }
 
 
@@ -304,7 +302,6 @@ public class PanneauChoix extends JPanel {
     private void supFigure() {
         if (figureEnCours != null) {
             figureEnCours = null;
-            //  dmodele.finFigure();
         }
         vdessin.enleverListeners();
         if (manipulateurFormes != null) {
@@ -348,7 +345,7 @@ public class PanneauChoix extends JPanel {
                 res = Color.PINK;
                 break;
             case 8:
-                res = coulPerso;
+                res = colorSelected;
                 break;
             default:
                 res = Color.BLACK;
