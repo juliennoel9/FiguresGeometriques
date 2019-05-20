@@ -62,7 +62,7 @@ public class PanneauChoix extends JPanel {
      */
     private ManipulateurFormes manipulateurFormes;
 
-    private Menu menu;
+    private JMenuBar menu;
 
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
@@ -249,7 +249,7 @@ public class PanneauChoix extends JPanel {
         this.add(j2);
     }
 
-    public Menu getMenuBar() {
+    public JMenuBar getMenuBar() {
         if (menu == null) {
             initMenu();
         }
@@ -271,16 +271,17 @@ public class PanneauChoix extends JPanel {
     }
 
     private void initMenu() {
-        menu = new Menu();
+        menu = new JMenuBar();
+        menu.setVisible(true);
         JMenu file = new JMenu("Fichier");
         file.add(sauvegarder);
         file.add(charger);
-        menu.ajouterSousMenu(file);
+        menu.add(file);
 
         JMenu suprimer = new JMenu("Supression");
         suprimer.add(effacerSelection);
         suprimer.add(effacerTout);
-        menu.ajouterSousMenu(suprimer);
+        menu.add(suprimer);
 
         JMenu     aide    = new JMenu("Aide");
         JMenuItem aideBut = new JMenuItem("Aide");
@@ -291,7 +292,7 @@ public class PanneauChoix extends JPanel {
             }
         });
         aide.add(aideBut);
-        menu.ajouterSousMenu(aide);
+        menu.add(aide);
     }
 
 
