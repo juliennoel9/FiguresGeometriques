@@ -146,6 +146,10 @@ public abstract class FigureColoree implements Serializable {
 
     public abstract FabricantFigure getContructeur(DessinModele dessinModele);
 
+    public boolean isCercle() {
+        return false;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(tab_mem);

@@ -25,6 +25,11 @@ public class FabricantCarre extends FabricantFigure implements MouseMotionListen
     }
 
     @Override
+    public boolean hasMotionListener() {
+        return true;
+    }
+
+    @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             firstPoint = new Point(e.getX(), e.getY());

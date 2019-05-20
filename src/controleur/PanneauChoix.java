@@ -280,7 +280,6 @@ public class PanneauChoix extends JPanel {
         JMenu suprimer = new JMenu("Supression");
         suprimer.add(effacerSelection);
         suprimer.add(effacerTout);
-        suprimer.add(suprimer);
         menu.ajouterSousMenu(suprimer);
 
         JMenu     aide    = new JMenu("Aide");

@@ -135,4 +135,8 @@ public class FabricantFigure implements MouseListener {
     public int getNbClique() {
         return nbClique;
     }
+
+    public boolean hasMotionListener() {
+        return false;
+    }
 }

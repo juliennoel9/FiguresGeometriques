@@ -183,7 +183,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         }
         if (SwingUtilities.isRightMouseButton(e)) {
             if (selected != null) {
-                if (lfg.get(sel) instanceof Cercle) {
+                if (lfg.get(sel).isCercle()) {
                     int difX = e.getX() - last_x;
                     int difY = e.getY() - last_y;
                     if (selected.equals(figureSelection().getPoints().get(0))) {

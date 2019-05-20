@@ -64,6 +64,11 @@ public class Cercle extends FigureColoree {
     }
 
     @Override
+    public boolean isCercle() {
+        return true;
+    }
+
+    @Override
     public FabricantFigure getContructeur(DessinModele dessinModele) {
         return new FabricantFigure(this, dessinModele);
     }

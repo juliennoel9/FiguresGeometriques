@@ -4,12 +4,16 @@ import controleur.FabricantCarre;
 import controleur.FabricantFigure;
 import controleur.ManipulateurFormes;
 import controleur.TraceurForme;
-import modele.Carre;
 import modele.DessinModele;
 import modele.FigureColoree;
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
@@ -38,6 +42,8 @@ public class VueDessin extends JPanel implements Observer {
     public VueDessin() {
         setVisible(true);
         setPreferredSize(new Dimension(100, 100));
+        setBackground(Color.WHITE);
+        setBorder(BorderFactory.createLoweredSoftBevelBorder());
     }
 
     /**
@@ -67,7 +73,7 @@ public class VueDessin extends JPanel implements Observer {
     public void createFigure(FigureColoree f) {
         FabricantFigure fa = f.getContructeur(dessin);
         addMouseListener(fa);
-        if (f instanceof Carre) {
+        if (fa.hasMotionListener()) {
             addMouseMotionListener((FabricantCarre) fa);
         }
     }
@@ -96,10 +102,12 @@ public class VueDessin extends JPanel implements Observer {
             try {
                 File myFile = new File("ip.pdf");
                 Desktop.getDesktop().open(myFile);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this,"Aucune application pour ouvrir le PDF");
-            } catch (IllegalArgumentException iae){
-                JOptionPane.showMessageDialog(this,"Fichier inexistant");
+            }
+            catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Aucune application pour ouvrir le PDF");
+            }
+            catch (IllegalArgumentException iae) {
+                JOptionPane.showMessageDialog(this, "Fichier inexistant");
             }
         }
     }
