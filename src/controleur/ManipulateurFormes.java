@@ -1,6 +1,5 @@
 package controleur;
 
-import modele.Cercle;
 import modele.DessinModele;
 import modele.FigureColoree;
 import modele.Point;
@@ -142,6 +141,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
                 sel = -1;
             }
         }
+        e.getComponent().requestFocusInWindow();
     }
 
     /**

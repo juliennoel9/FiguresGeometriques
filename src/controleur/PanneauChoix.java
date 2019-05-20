@@ -1,14 +1,14 @@
 package controleur;
 
 import modele.*;
-import modele.Rectangle;
 import vue.VueDessin;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Random;
 
@@ -200,14 +200,13 @@ public class PanneauChoix extends JPanel {
         });
 
 
-        //todo rework
         couleurs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (couleurs.getSelectedIndex() == 8) {
                     Color r = new Color(rand(), rand(), rand(), 255);
                     colorSelected = JColorChooser.showDialog(vdessin,
-                            "Choisissez votre couleur ! ", r
+                                                             "Choisissez votre couleur ! ", r
                     );
                 }
                 colorSelected = determineCouleur(couleurs.getSelectedIndex());
@@ -226,7 +225,6 @@ public class PanneauChoix extends JPanel {
         });
 
 
-        //todo rework
         formes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -275,16 +273,27 @@ public class PanneauChoix extends JPanel {
         menu.setVisible(true);
         JMenu file = new JMenu("Fichier");
         file.add(sauvegarder);
+        sauvegarder.setToolTipText("Pour sauvegarder");
+        sauvegarder.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         file.add(charger);
+        charger.setToolTipText("Pour Ouvrir une sauvegarde");
+        charger.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menu.add(file);
 
         JMenu suprimer = new JMenu("Supression");
         suprimer.add(effacerSelection);
+        effacerSelection.setToolTipText("Pour supprimer la figure selectionner");
+        effacerSelection.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
         suprimer.add(effacerTout);
+        menu.add(suprimer);
+        effacerTout.setToolTipText("Pour tout supprimer");
+        effacerTout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.CTRL_DOWN_MASK));
         menu.add(suprimer);
 
         JMenu     aide    = new JMenu("Aide");
         JMenuItem aideBut = new JMenuItem("Aide");
+        aideBut.setToolTipText("Pour avoir de l'aide");
+        aideBut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
         aideBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

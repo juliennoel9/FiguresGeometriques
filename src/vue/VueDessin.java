@@ -9,7 +9,6 @@ import modele.FigureColoree;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -30,11 +29,6 @@ public class VueDessin extends JPanel implements Observer {
      * Le dessinModele
      */
     private DessinModele dessin;
-
-    /**
-     * Manipulateur de forme de la vue
-     */
-    private ManipulateurFormes mf;
 
     /**
      * Constructeur ajoutant la taille
@@ -70,6 +64,11 @@ public class VueDessin extends JPanel implements Observer {
         }
     }
 
+    /**
+     * Permet de crée les figure et d'ajouter le(s) listener(s)
+     *
+     * @param f la figure colorree
+     */
     public void createFigure(FigureColoree f) {
         FabricantFigure fa = f.getContructeur(dessin);
         addMouseListener(fa);
@@ -78,6 +77,9 @@ public class VueDessin extends JPanel implements Observer {
         }
     }
 
+    /**
+     * Permet d'enlever tout les listeners
+     */
     public void enleverListeners() {
         for (MouseListener ml : getMouseListeners()) {
             removeMouseListener(ml);
@@ -87,16 +89,29 @@ public class VueDessin extends JPanel implements Observer {
         }
     }
 
+    /**
+     * Petmet d'ajouter une manipulation
+     *
+     * @param manipulateurFormes le naipulateur de forme
+     */
     public void ajoutManip(ManipulateurFormes manipulateurFormes) {
         addMouseListener(manipulateurFormes);
         addMouseMotionListener(manipulateurFormes);
     }
 
+    /**
+     * Permet d'ajouter un traceur plus rapidement
+     *
+     * @param traceurForme le traceur
+     */
     public void ajoutTraceur(TraceurForme traceurForme) {
         addMouseMotionListener(traceurForme);
         addMouseListener(traceurForme);
     }
 
+    /**
+     * Permet d'ouvir un PDF
+     */
     public void openPDF() {
         if (Desktop.isDesktopSupported()) {
             try {
