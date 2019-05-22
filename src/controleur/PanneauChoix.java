@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -205,10 +206,13 @@ public class PanneauChoix extends JPanel {
                 if (couleurs.getSelectedIndex() == 7) {
                     Color r = new Color(rand(), rand(), rand(), 255);
                     colorSelected = JColorChooser.showDialog(vdessin,
-                                                             "Choisissez votre couleur ! ", r
+                            "Choisissez votre couleur ! ", r
                     );
                 }
                 colorSelected = determineCouleur(couleurs.getSelectedIndex());
+                if(figureEnCours != null) {
+                    figureEnCours.changeCouleur(colorSelected);
+                }
                 if (manipulateurFormes != null) {
                     FigureColoree c = manipulateurFormes.figureSelection();
                     if (c != null) {
@@ -293,14 +297,31 @@ public class PanneauChoix extends JPanel {
         JMenuItem aideBut = new JMenuItem("Aide");
         aideBut.setToolTipText("Pour avoir de l'aide");
         aideBut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
-        aideBut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                vdessin.openPDF();
-            }
-        });
+        aideBut.addActionListener(e -> vdessin.openPDF());
         aide.add(aideBut);
         menu.add(aide);
+
+        JMenuItem image = new JMenuItem("Exporter en image");
+        image.setToolTipText("Pour avoir l' image de ce qui est dessiné");
+        image.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
+        image.addActionListener(e -> {
+            JFileChooser jFileChooser = new JFileChooser("Exporter en image");
+            jFileChooser.setFileFilter(new FileNameExtensionFilter("Image (.png,.jpg,.jpeg)", "png", "jpg", "jpeg"));
+            int i = jFileChooser.showDialog(vdessin, "Exporter");
+            if (i == 0) {
+                File f = jFileChooser.getSelectedFile();
+                i = JOptionPane.showConfirmDialog(
+                        vdessin,
+                        "Cette opération peut prendre un certain temps, voulez vous contiuer ?"
+                );
+
+                if (i == 0) {
+                    vdessin.toImage(f);
+                }
+
+            }
+        });
+        file.add(image);
     }
 
 

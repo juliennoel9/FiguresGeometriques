@@ -6,6 +6,7 @@ import controleur.ManipulateurFormes;
 import controleur.TraceurForme;
 import modele.DessinModele;
 import modele.FigureColoree;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,8 +16,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,7 +38,7 @@ public class VueDessin extends JPanel implements Observer {
      */
     public VueDessin() {
         setVisible(true);
-        setPreferredSize(new Dimension(100, 100));
+        setPreferredSize(new Dimension(1920, 1080));
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createLoweredSoftBevelBorder());
     }
@@ -126,4 +129,39 @@ public class VueDessin extends JPanel implements Observer {
             }
         }
     }
+
+    public void toImage(File file) {
+        String   name = file.getAbsolutePath();
+        String   prot = "png";
+        String[] n    = name.replace('.', '§').split("§");
+        if (n.length > 0) {
+            String ex = n[n.length - 1];
+            if (ex.equalsIgnoreCase("png") || ex.equalsIgnoreCase("jpg") || ex.equalsIgnoreCase("jpeg")) {
+                prot = ex;
+            }
+            else {
+                name += ".png";
+            }
+        }
+        else {
+            name += ".png";
+        }
+        BufferedImage im = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        paintAll(im.getGraphics());
+        try {
+            file = new File(name);
+            ImageIO.write(im, prot, file);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "La conversion est fini, votre image se trouve a la destination \n"
+                            + file.getAbsolutePath()
+            );
+        }
+        catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Il y a eu une erreur lors de la converion ! ");
+
+        }
+
+    }
+
 }

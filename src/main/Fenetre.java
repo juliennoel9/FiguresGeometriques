@@ -3,6 +3,8 @@ package main;
 import controleur.PanneauChoix;
 import vue.VueDessin;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -20,9 +22,12 @@ public class Fenetre extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(500, 493));
+        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         vdessin = new VueDessin();
         choix = new PanneauChoix(vdessin);
-        add(vdessin, BorderLayout.CENTER);
+        scrollPane.setViewportView(vdessin);
+        add(scrollPane, BorderLayout.CENTER);
         add(choix, BorderLayout.NORTH);
         pack();
         setJMenuBar(choix.getMenuBar());
