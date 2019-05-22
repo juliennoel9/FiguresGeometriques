@@ -26,6 +26,11 @@ public class Carre extends Polygone {
     }
 
     @Override
+    public boolean isCarre() {
+        return true;
+    }
+
+    @Override
     public FabricantFigure getContructeur(DessinModele ds) {
         return new FabricantCarre(this, ds);
     }

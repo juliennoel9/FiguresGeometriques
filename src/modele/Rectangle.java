@@ -37,4 +37,9 @@ public class Rectangle extends Quadrilatere {
         pointsCliques.add(d);
         super.modifierPoints(pointsCliques);
     }
+
+    @Override
+    public boolean isRectangle() {
+        return true;
+    }
 }

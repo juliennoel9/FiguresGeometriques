@@ -206,7 +206,7 @@ public class PanneauChoix extends JPanel {
                 if (couleurs.getSelectedIndex() == 8) {
                     Color r = new Color(rand(), rand(), rand(), 255);
                     colorSelected = JColorChooser.showDialog(vdessin,
-                                                             "Choisissez votre couleur ! ", r
+                            "Choisissez votre couleur ! ", r
                     );
                 }
                 colorSelected = determineCouleur(couleurs.getSelectedIndex());

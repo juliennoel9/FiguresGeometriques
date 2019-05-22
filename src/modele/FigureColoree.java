@@ -150,6 +150,14 @@ public abstract class FigureColoree implements Serializable {
         return false;
     }
 
+    public boolean isRectangle() {
+        return false;
+    }
+
+    public boolean isCarre() {
+        return false;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(tab_mem);
