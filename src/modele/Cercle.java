@@ -64,8 +64,15 @@ public class Cercle extends FigureColoree {
     }
 
     @Override
-    public boolean isCercle() {
-        return true;
+    public void transforamtionFigure(Point selected, int difX, int difY) {
+        if (selected.equals(getPoints().get(0))) {
+            for (Point p : getPoints()) {
+                p.translater(difX, difY);
+            }
+        }
+        else {
+            selected.translater(difX, difY);
+        }
     }
 
     @Override

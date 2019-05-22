@@ -74,7 +74,7 @@ public class PanneauChoix extends JPanel {
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JRadioButton newFig    = new JRadioButton("Nouvelle figure");
-        JRadioButton mainLevee = new JRadioButton("Trace a main levee");
+        JRadioButton mainLevee = new JRadioButton("Tracé à main levée");
         JRadioButton manip     = new JRadioButton("Manipulations");
         formes = new JComboBox<>(tabForme);
         JComboBox<String> couleurs = new JComboBox<>(new String[]{
@@ -83,7 +83,6 @@ public class PanneauChoix extends JPanel {
                 "Vert",
                 "Bleu",
                 "Jaune",
-                "Gris",
                 "Magenta",
                 "Rose",
                 "Personnaliser"
@@ -203,10 +202,10 @@ public class PanneauChoix extends JPanel {
         couleurs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (couleurs.getSelectedIndex() == 8) {
+                if (couleurs.getSelectedIndex() == 7) {
                     Color r = new Color(rand(), rand(), rand(), 255);
                     colorSelected = JColorChooser.showDialog(vdessin,
-                            "Choisissez votre couleur ! ", r
+                                                             "Choisissez votre couleur ! ", r
                     );
                 }
                 colorSelected = determineCouleur(couleurs.getSelectedIndex());
@@ -345,15 +344,12 @@ public class PanneauChoix extends JPanel {
                 res = Color.YELLOW;
                 break;
             case 5:
-                res = Color.GRAY;
-                break;
-            case 6:
                 res = Color.MAGENTA;
                 break;
-            case 7:
+            case 6:
                 res = Color.PINK;
                 break;
-            case 8:
+            case 7:
                 res = colorSelected;
                 break;
             default:

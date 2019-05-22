@@ -146,16 +146,8 @@ public abstract class FigureColoree implements Serializable {
 
     public abstract FabricantFigure getContructeur(DessinModele dessinModele);
 
-    public boolean isCercle() {
-        return false;
-    }
-
-    public boolean isRectangle() {
-        return false;
-    }
-
-    public boolean isCarre() {
-        return false;
+    public void transforamtionFigure(Point selected, int difX, int difY) {
+        selected.translater(difX, difY);
     }
 
     @Override

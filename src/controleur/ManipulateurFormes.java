@@ -1,7 +1,8 @@
 package controleur;
 
-import modele.*;
-
+import modele.DessinModele;
+import modele.FigureColoree;
+import modele.Point;
 import javax.swing.SwingUtilities;
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;
@@ -182,110 +183,9 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         }
         if (SwingUtilities.isRightMouseButton(e)) {
             if (selected != null) {
-                if (lfg.get(sel).isCercle()) {
-                    int difX = e.getX() - last_x;
-                    int difY = e.getY() - last_y;
-                    if (selected.equals(figureSelection().getPoints().get(0))) {
-                        for (Point p : figureSelection().getPoints()) {
-                            p.translater(difX, difY);
-                        }
-                    }
-                    else {
-                        selected.translater(difX, difY);
-                    }
-
-                }
-                else {
-                    if (lfg.get(sel).isRectangle()){
-                        int difX = e.getX() - last_x;
-                        int difY = e.getY() - last_y;
-                        switch (lfg.get(sel).getPoints().indexOf(selected)) {
-                            case 0 :
-                                selected.translater(difX,difY);
-                                int ancienY1 = lfg.get(sel).getPoints().get(1).getY();
-                                int ancienX3 = lfg.get(sel).getPoints().get(3).getX();
-                                lfg.get(sel).getPoints().get(1).translater(0,lfg.get(sel).getPoints().get(0).getY()-ancienY1);
-                                lfg.get(sel).getPoints().get(3).translater(lfg.get(sel).getPoints().get(0).getX()-ancienX3,0);
-                                break;
-                            case 1 :
-                                selected.translater(difX,difY);
-                                int ancienX2 = lfg.get(sel).getPoints().get(2).getX();
-                                int ancienY0 = lfg.get(sel).getPoints().get(0).getY();
-                                lfg.get(sel).getPoints().get(0).translater(0,lfg.get(sel).getPoints().get(1).getY()-ancienY0);
-                                lfg.get(sel).getPoints().get(2).translater(lfg.get(sel).getPoints().get(1).getX()-ancienX2,0);
-                                break;
-                            case 2 :
-                                selected.translater(difX,difY);
-                                int ancienX1 = lfg.get(sel).getPoints().get(1).getX();
-                                int ancienY3 = lfg.get(sel).getPoints().get(3).getY();
-                                lfg.get(sel).getPoints().get(3).translater(0,lfg.get(sel).getPoints().get(2).getY()-ancienY3);
-                                lfg.get(sel).getPoints().get(1).translater(lfg.get(sel).getPoints().get(2).getX()-ancienX1,0);
-                                break;
-                            case 3 :
-                                selected.translater(difX,difY);
-                                int ancienX0 = lfg.get(sel).getPoints().get(0).getX();
-                                int ancienY2 = lfg.get(sel).getPoints().get(2).getY();
-                                lfg.get(sel).getPoints().get(2).translater(0,lfg.get(sel).getPoints().get(3).getY()-ancienY2);
-                                lfg.get(sel).getPoints().get(0).translater(lfg.get(sel).getPoints().get(3).getX()-ancienX0,0);
-                                break;
-                        }
-                    }else {
-                        if (lfg.get(sel).isCarre()){
-                            int dif = e.getX() - last_x;
-
-                            switch (lfg.get(sel).getPoints().indexOf(selected)) {
-                                case 0 :
-                                    selected.translater(dif,dif);
-
-                                    int ancienY2 = lfg.get(sel).getPoints().get(2).getY();
-                                    int ancienX2 = lfg.get(sel).getPoints().get(2).getX();
-
-                                    int diffCoteX=lfg.get(sel).getPoints().get(2).getX()-lfg.get(sel).getPoints().get(0).getX();
-
-                                    lfg.get(sel).getPoints().get(3).setY(ancienY2-diffCoteX);
-                                    lfg.get(sel).getPoints().get(1).setX(ancienX2-diffCoteX);
-                                    break;
-                                case 1 :
-                                    selected.translater(dif,-dif);
-
-                                    int ancienY3 = lfg.get(sel).getPoints().get(3).getY();
-                                    int ancienX3 = lfg.get(sel).getPoints().get(3).getX();
-
-                                    int diffCoteX1=lfg.get(sel).getPoints().get(3).getX()-lfg.get(sel).getPoints().get(1).getX();
-
-                                    lfg.get(sel).getPoints().get(2).setY(ancienY3+diffCoteX1);
-                                    lfg.get(sel).getPoints().get(0).setX(ancienX3-diffCoteX1);
-                                    break;
-                                case 2 :
-                                    selected.translater(dif,dif);
-
-                                    int ancienY0 = lfg.get(sel).getPoints().get(0).getY();
-                                    int ancienX0 = lfg.get(sel).getPoints().get(0).getX();
-
-                                    int diffCoteX2=lfg.get(sel).getPoints().get(2).getX()-lfg.get(sel).getPoints().get(0).getX();
-
-                                    lfg.get(sel).getPoints().get(1).setY(ancienY0+diffCoteX2);
-                                    lfg.get(sel).getPoints().get(3).setX(ancienX0+diffCoteX2);
-                                    break;
-                                case 3 :
-                                    selected.translater(dif,-dif);
-
-                                    int ancienY1 = lfg.get(sel).getPoints().get(1).getY();
-                                    int ancienX1 = lfg.get(sel).getPoints().get(1).getX();
-
-                                    int diffCoteX3=lfg.get(sel).getPoints().get(3).getX()-lfg.get(sel).getPoints().get(1).getX();
-
-                                    lfg.get(sel).getPoints().get(0).setY(ancienY1-diffCoteX3);
-                                    lfg.get(sel).getPoints().get(2).setX(ancienX1+diffCoteX3);
-                                    break;
-                            }
-                        }else {
-                            int difX = e.getX() - last_x;
-                            int difY = e.getY() - last_y;
-                            selected.translater(difX, difY);
-                        }
-                    }
-                }
+                int difX = e.getX() - last_x;
+                int difY = e.getY() - last_y;
+                lfg.get(sel).transforamtionFigure(selected, difX, difY);
             }
         }
         dm.update();
