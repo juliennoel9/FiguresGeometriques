@@ -5,6 +5,7 @@ import vue.VueDessin;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -172,7 +173,6 @@ public class PanneauChoix extends JPanel {
             }
         });
 
-        //todo rework
         mainLevee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -186,7 +186,6 @@ public class PanneauChoix extends JPanel {
         });
 
 
-        //todo Rework
         manip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,11 +205,11 @@ public class PanneauChoix extends JPanel {
                 if (couleurs.getSelectedIndex() == 7) {
                     Color r = new Color(rand(), rand(), rand(), 255);
                     colorSelected = JColorChooser.showDialog(vdessin,
-                            "Choisissez votre couleur ! ", r
+                                                             "Choisissez votre couleur ! ", r
                     );
                 }
                 colorSelected = determineCouleur(couleurs.getSelectedIndex());
-                if(figureEnCours != null) {
+                if (figureEnCours != null) {
                     figureEnCours.changeCouleur(colorSelected);
                 }
                 if (manipulateurFormes != null) {
@@ -322,6 +321,40 @@ public class PanneauChoix extends JPanel {
             }
         });
         file.add(image);
+
+        JMenuItem changTaile = new JMenuItem("Changer la taille ...");
+        changTaile.setToolTipText("Pour changer l'immage ");
+        changTaile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.ALT_DOWN_MASK));
+        changTaile.addActionListener(e -> {
+            String r = JOptionPane.showInputDialog(
+                    "Taille du dessins : (width,height)",
+                    vdessin.getPreferredSize().width + "," + vdessin.getPreferredSize().height
+            );
+
+            int w, h;
+            try {
+                String[] spl = r.split(",");
+                w = Integer.valueOf(spl[0]);
+                h = Integer.valueOf(spl[1]);
+            }
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(vdessin, "Valeurs invalide");
+                return;
+            }
+            Dimension s   = new Dimension(w, h);
+            Dimension min = vdessin.getMinimumSize();
+            if (s.height < min.height || s.width < min.height) {
+                JOptionPane.showMessageDialog(vdessin, "Taille trop petite, min " + min.width + "," + min.height);
+                return;
+            }
+            vdessin.setPreferredSize(s);
+            JOptionPane.showMessageDialog(vdessin, "Taille changée");
+            vdessin.getParent().revalidate();
+
+        });
+        file.addSeparator();
+        file.add(changTaile);
+        vdessin.repaint();
     }
 
 
