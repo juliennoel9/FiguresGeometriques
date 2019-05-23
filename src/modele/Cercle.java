@@ -58,18 +58,20 @@ public class Cercle extends FigureColoree {
     public boolean isInSelection(MouseEvent e) {
         int                last_x   = e.getX();
         int                last_y   = e.getY();
-        Point              p1       = getPoints().get(0);
-        Point              p2       = getPoints().get(1);
+
+        if (!tab_mem.isEmpty()){
+            Point              p1       = getPoints().get(0);
+            Point              p2       = getPoints().get(1);
+            int distX = p2.getX()-p1.getX();
 
 
-        int distX = p2.getX()-p1.getX();
-
-
-        int                distance = (int) p1.distance(p2);
-        java.awt.Rectangle r        = new java.awt.Rectangle(p2.getX()-2*distX, p2.getY()-distX, distance*2, distance*2);
-        if (r.contains(last_x, last_y)) {
-            selectionne();
-            return true;
+            int                distance = (int) p1.distance(p2);
+            java.awt.Rectangle r        = new java.awt.Rectangle(p2.getX()-2*distX, p2.getY()-distX, distance*2, distance*2);
+            if (r.contains(last_x, last_y)) {
+                selectionne();
+                return true;
+            }
+            return false;
         }
         return false;
     }
@@ -82,7 +84,7 @@ public class Cercle extends FigureColoree {
             }
         }
         else {
-            if (tab_mem.get(1).getX()+difX>tab_mem.get(0).getX()+20){
+            if (tab_mem.get(1).getX()+difX>tab_mem.get(0).getX()+10){
                 selected.translater(difX, 0);
             }
         }
