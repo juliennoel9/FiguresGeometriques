@@ -41,8 +41,6 @@ public class FabricantCarre extends FabricantFigure implements MouseMotionListen
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        ((JPanel) e.getSource()).removeMouseListener(this);
-        ((JPanel) e.getSource()).removeMouseMotionListener(this);
         ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix().reCreateObject();
     }
 

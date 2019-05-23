@@ -1,7 +1,10 @@
 package modele;
 
+import controleur.FabricantCarre;
+import controleur.FabricantCercle;
 import controleur.FabricantFigure;
-import java.awt.Graphics;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
@@ -42,10 +45,13 @@ public class Cercle extends FigureColoree {
      */
     @Override
     public void affiche(Graphics g) {
-        Point p1 = tab_mem.get(0);
-        Point p2 = tab_mem.get(1);
-        g.fillOval(p1.getX(), p1.getY(), (int) p1.distance(p2), (int) p1.distance(p2));
-        super.affiche(g);
+        if (!tab_mem.isEmpty()){
+            Point p1 = tab_mem.get(0);
+            Point p2 = tab_mem.get(1);
+            int distX = (int) p1.distance(p2);
+            g.fillOval(p2.getX()-2*distX, p2.getY()-distX, distX*2, distX*2);
+            super.affiche(g);
+        }
     }
 
     @Override
@@ -54,8 +60,13 @@ public class Cercle extends FigureColoree {
         int                last_y   = e.getY();
         Point              p1       = getPoints().get(0);
         Point              p2       = getPoints().get(1);
+
+
+        int distX = p2.getX()-p1.getX();
+
+
         int                distance = (int) p1.distance(p2);
-        java.awt.Rectangle r        = new java.awt.Rectangle(p1.getX(), p1.getY(), distance, distance);
+        java.awt.Rectangle r        = new java.awt.Rectangle(p2.getX()-2*distX, p2.getY()-distX, distance*2, distance*2);
         if (r.contains(last_x, last_y)) {
             selectionne();
             return true;
@@ -71,13 +82,15 @@ public class Cercle extends FigureColoree {
             }
         }
         else {
-            selected.translater(difX, difY);
+            if (tab_mem.get(1).getX()+difX>tab_mem.get(0).getX()+20){
+                selected.translater(difX, 0);
+            }
         }
     }
 
     @Override
     public FabricantFigure getContructeur(DessinModele dessinModele) {
-        return new FabricantFigure(this, dessinModele);
+        return new FabricantCercle(this, dessinModele);
     }
 
 }

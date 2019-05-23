@@ -76,7 +76,7 @@ public class VueDessin extends JPanel implements Observer {
         FabricantFigure fa = f.getContructeur(dessin);
         addMouseListener(fa);
         if (fa.hasMotionListener()) {
-            addMouseMotionListener((FabricantCarre) fa);
+            addMouseMotionListener((MouseMotionListener) fa);
         }
     }
 
