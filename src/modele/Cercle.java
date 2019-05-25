@@ -63,11 +63,11 @@ public class Cercle extends FigureColoree {
             Point              p1       = getPoints().get(0);
             Point              p2       = getPoints().get(1);
             int distX = p2.getX()-p1.getX();
+            int distance = (int) p1.distance(p2);
+            int xCentre = (p2.getX()-2*distX)+distance;
+            int yCentre = (p2.getY()-distX)+distance;
 
-
-            int                distance = (int) p1.distance(p2);
-            java.awt.Rectangle r        = new java.awt.Rectangle(p2.getX()-2*distX, p2.getY()-distX, distance*2, distance*2);
-            if (r.contains(last_x, last_y)) {
+            if (Math.pow(last_x-xCentre,2)+Math.pow(last_y-yCentre,2)<=Math.pow(distance,2)){
                 selectionne();
                 return true;
             }
