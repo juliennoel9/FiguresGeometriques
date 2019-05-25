@@ -1,11 +1,11 @@
 package controleur;
 
 import modele.*;
+import modele.Rectangle;
 import vue.VueDessin;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -78,6 +78,11 @@ public class PanneauChoix extends JPanel {
         JRadioButton newFig    = new JRadioButton("Nouvelle figure");
         JRadioButton mainLevee = new JRadioButton("Tracé à main levée");
         JRadioButton manip     = new JRadioButton("Manipulations");
+        JRadioButton fictifButton = new JRadioButton("");
+
+        ImageIcon rubber = new ImageIcon("rubber.png");
+        JButton gomme = new JButton(rubber);
+
         formes = new JComboBox<>(tabForme);
         JComboBox<String> couleurs = new JComboBox<>(new String[]{
                 "Noir",
@@ -95,6 +100,7 @@ public class PanneauChoix extends JPanel {
         b.add(newFig);
         b.add(mainLevee);
         b.add(manip);
+        b.add(fictifButton);
 
         effacerSelection = new JMenuItem("Effacer");
         effacerSelection.setEnabled(false);
@@ -166,6 +172,7 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(true);
+                couleurs.setEnabled(true);
                 supFigure();
                 formes.setSelectedIndex(formes.getSelectedIndex());
                 effacerSelection.setEnabled(false);
@@ -177,6 +184,7 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(false);
+                couleurs.setEnabled(true);
                 supFigure();
                 effacerSelection.setEnabled(false);
                 effacerTout.setEnabled(false);
@@ -190,11 +198,27 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formes.setEnabled(false);
+                couleurs.setEnabled(true);
                 effacerSelection.setEnabled(true);
                 effacerTout.setEnabled(true);
                 supFigure();
                 manipulateurFormes = new ManipulateurFormes(dmodele);
                 vdessin.ajoutManip(manipulateurFormes);
+            }
+        });
+
+        gomme.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formes.setEnabled(false);
+                couleurs.setEnabled(false);
+                effacerSelection.setEnabled(true);
+                effacerTout.setEnabled(true);
+                supFigure();
+                Gommeur gommeur = new Gommeur(dmodele,vdessin);
+                vdessin.ajoutGommmeur(gommeur);
+                gomme.setSelected(true);
+                fictifButton.setSelected(true);
             }
         });
 
@@ -239,6 +263,7 @@ public class PanneauChoix extends JPanel {
         j.add(newFig);
         j.add(mainLevee);
         j.add(manip);
+        j.add(gomme);
         this.add(j);
         j2.add(effacerTout);
         j2.add(effacerSelection);

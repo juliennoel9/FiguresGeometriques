@@ -1,9 +1,6 @@
 package vue;
 
-import controleur.FabricantCarre;
-import controleur.FabricantFigure;
-import controleur.ManipulateurFormes;
-import controleur.TraceurForme;
+import controleur.*;
 import modele.DessinModele;
 import modele.FigureColoree;
 import javax.imageio.ImageIO;
@@ -110,6 +107,11 @@ public class VueDessin extends JPanel implements Observer {
     public void ajoutTraceur(TraceurForme traceurForme) {
         addMouseMotionListener(traceurForme);
         addMouseListener(traceurForme);
+    }
+
+    public void ajoutGommmeur(Gommeur gommeur){
+        addMouseListener(gommeur);
+        addMouseMotionListener(gommeur);
     }
 
     /**

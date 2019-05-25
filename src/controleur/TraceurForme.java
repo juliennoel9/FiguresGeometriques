@@ -2,6 +2,7 @@ package controleur;
 
 import main.Fenetre;
 import modele.DessinModele;
+import modele.Point;
 import modele.Trait;
 import vue.VueDessin;
 
@@ -50,7 +51,7 @@ public class TraceurForme implements MouseMotionListener, MouseListener {
     @Override
     public void mouseDragged(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)){
-            Trait trait = new Trait(panneauChoix.getCouleur(), lastX, lastY, e.getX(), e.getY());
+            Trait trait = new Trait(panneauChoix.getCouleur(), new Point(lastX, lastY), new Point(e.getX(), e.getY()));
             lTrait.add(trait);
             dsm.getListFigureColore().add(trait);
             lastX = e.getPoint().x;
