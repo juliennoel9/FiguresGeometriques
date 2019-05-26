@@ -8,6 +8,9 @@ import java.util.List;
 
 public class Trait extends FigureColoree {
 
+    /**
+     * Constructeur vide de la classe Trait
+     */
     public Trait() {
 
     }
@@ -37,7 +40,7 @@ public class Trait extends FigureColoree {
     }
 
     /**
-     * Methode permettant de retourner le nombre de cliques d'un trait
+     * Methode permettant de retourner le nombre de clics d'un trait
      *
      * @return Nombre de cliques d'un trait
      */
@@ -46,17 +49,32 @@ public class Trait extends FigureColoree {
         return 2;
     }
 
+    /**
+     * Methode permettant de modifier les points du Trait
+     * @param points Liste de points a ajouter
+     */
     @Override
     public void modifierPoints(List<Point> points) {
         tab_mem = points;
     }
 
+    /**
+     * Methode permettant d'afficher une figure Trait
+     * @param g Graphics
+     */
     public void affiche(Graphics g) {
         g.setColor(this.couleur);
         g.drawLine(tab_mem.get(0).getX(), tab_mem.get(0).getY(), tab_mem.get(1).getX(), tab_mem.get(1).getY());
         super.affiche(g);
     }
 
+    /**
+     * Methode permettant de savoir si la souris (MouseEvent) se situe sur un Trait et retourne un booleen
+     * De plus, si le trait est une figure Trait et non pas un trait d'un trace a main levee, la figure sera
+     * desormais selectionnee
+     * @param e
+     * @return
+     */
     @Override
     public boolean isInSelection(MouseEvent e) {
         int last_x = e.getX();
@@ -66,46 +84,31 @@ public class Trait extends FigureColoree {
             Point              p1       = tab_mem.get(0);
             Point              p2       = tab_mem.get(1);
 
-            int distX;
-            int distY;
-            int xRect;
-            int yRect;
+            Point vectP1P2 = new Point(p1.getX()-p2.getX(), p1.getY()-p2.getY());
 
-            if (p1.getX()<p2.getX()){
-                xRect=p1.getX();
-                distX = Math.abs(p2.getX()-p1.getX());
-            }else if (p1.getX()>p2.getX()){
-                xRect=p2.getX();
-                distX = Math.abs(p2.getX()-p1.getX());
-            }else {
-                xRect=p1.getX()-5;
-                distX = Math.abs(p2.getX()-p1.getX())+5;
-            }
-
-            if (p1.getY()<p2.getY()){
-                yRect=p1.getY();
-                distY = Math.abs(p2.getY()-p1.getY());
-            }else if (p1.getY()>p2.getY()){
-                yRect=p2.getY();
-                distY = Math.abs(p2.getY()-p1.getY());
-            }else {
-                yRect=p1.getY()-5;
-                distY = Math.abs(p2.getY()-p1.getY())+5;
-            }
+            Point vectP1S = new Point(p1.getX()-last_x, p1.getY()-last_y);
 
             int distance = (int) Math.abs(p1.distance(p2));
 
-            if (distance>5){
-                java.awt.Rectangle r        = new java.awt.Rectangle(xRect, yRect, distX, distY);
-                if (r.contains(last_x, last_y)) {
-                    selectionne();
-                    return true;
+            // Distance > 10 signifie que c'est une figure Trait, sinon c'est un trace a main levee
+            if (distance>10){
+                // On chercher a savoir si les deux vecteurs sont colineaires
+                if (vectP1P2.getX()*vectP1S.getY() - vectP1P2.getY()*vectP1S.getX() >= -2000 && vectP1P2.getX()*vectP1S.getY() - vectP1P2.getY()*vectP1S.getX() <= 2000){
+                    if (vectP1P2.getY()!=0){
+                        // Puis on cherche le coefficient de proportionalite afin de selectionner le trait que lorsque la souris est dessus
+                        // c'est a dire que les deux vecteurs sont confondus
+                        if ((double)vectP1S.getY()/vectP1P2.getY()>=0 && (double)vectP1S.getY()/vectP1P2.getY()<=1) {
+                            System.out.println((double)vectP1S.getY()/vectP1P2.getY());
+                            selectionne();
+                            return true;
+                        }
+                    }
                 }
                 return false;
             }else {
+                // Ici, on regarde si le premier point du trait du trace a main leve se situe dans le cercle de rayon 20 autour de la souris
                 if (Math.pow(p1.getX()-last_x,2)+Math.pow(p1.getY()-last_y,2)<=400){
-                    selectionne();
-                    return true;
+                   return true;
                 }
                 return false;
             }
@@ -113,8 +116,13 @@ public class Trait extends FigureColoree {
         return false;
     }
 
+    /**
+     * Methode permettant de retourner l'instance qui crée un Trait
+     * @param dessinModele
+     * @return
+     */
     @Override
-    public FabricantFigure getContructeur(DessinModele dessinModele) {
+    public FabricantFigure getConstructeur(DessinModele dessinModele) {
         return new FabricantFigure(this, dessinModele);
     }
 }

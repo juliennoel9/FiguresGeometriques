@@ -46,20 +46,15 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
     private boolean trans;
 
     /**
-     * Attribut indiquant l'indice du point proche d'un carre de selection
-     */
-    private int indice;
-
-    /**
-     * Nombre effectif de figures apparaissant dans ce dessin
-     */
-    private int nbf;
-
-    /**
      * Indice de la figure actuellement selectionnee (-1 si aucune figure n'est sélectionnee)
      */
     private int sel;
 
+    /**
+     * Constructeur de la classe ManipulateurFormes prenant en parametre un DessinModele afin d'avoir
+     * acces a la liste de figures colorees de celui-ci
+     * @param dessinModele DessinModele
+     */
     public ManipulateurFormes(DessinModele dessinModele) {
         this.lfg = new ArrayList<>(dessinModele.getListFigureColore());
         Collections.reverse(lfg);
@@ -96,7 +91,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
             for (FigureColoree fg : lfg) {
                 last_y = e.getY();
                 last_x = e.getX();
-                if (fg.isInSelection(e)) {
+                if (fg.isInSelection(e) && fg.isSelected()) {
                     dm.update();
                     sel = i;
                     found = true;
@@ -194,19 +189,9 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
 
     }
 
-
     @Override
     public void mouseMoved(MouseEvent e) {
 
-    }
-
-    /**
-     * Methode retournant le nombre de figures presentes dans la liste
-     *
-     * @return Nombre de figures dans la liste
-     */
-    public int nbFigures() {
-        return this.lfg.size();
     }
 
     /**
@@ -222,13 +207,6 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         else {
             return null;
         }
-    }
-
-    /**
-     * Methode permettant de selectionner la prochaine figure dans la liste
-     */
-    public void selectionProchaineFigure() {
-        this.sel += 1;
     }
 
     /**
