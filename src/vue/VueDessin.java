@@ -16,7 +16,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -70,7 +69,7 @@ public class VueDessin extends JPanel implements Observer {
      * @param f la figure colorree
      */
     public void createFigure(FigureColoree f) {
-        FabricantFigure fa = f.getContructeur(dessin);
+        FabricantFigure fa = f.getConstructeur(dessin);
         addMouseListener(fa);
         if (fa.hasMotionListener()) {
             addMouseMotionListener((MouseMotionListener) fa);

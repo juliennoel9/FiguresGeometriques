@@ -144,7 +144,7 @@ public abstract class FigureColoree implements Serializable {
 
     public abstract boolean isInSelection(MouseEvent e);
 
-    public abstract FabricantFigure getContructeur(DessinModele dessinModele);
+    public abstract FabricantFigure getConstructeur(DessinModele dessinModele);
 
     public void transforamtionFigure(Point selected, int difX, int difY) {
         selected.translater(difX, difY);
@@ -153,5 +153,9 @@ public abstract class FigureColoree implements Serializable {
     @Override
     public String toString() {
         return String.valueOf(tab_mem);
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 }

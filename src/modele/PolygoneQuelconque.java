@@ -24,7 +24,7 @@ public class PolygoneQuelconque extends Polygone {
     }
 
     @Override
-    public FabricantFigure getContructeur(DessinModele dessinModele) {
+    public FabricantFigure getConstructeur(DessinModele dessinModele) {
         return new FabricantQuelconque(this, dessinModele);
     }
 }

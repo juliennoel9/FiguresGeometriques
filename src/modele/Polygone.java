@@ -51,7 +51,7 @@ public abstract class Polygone extends FigureColoree {
     }
 
     @Override
-    public FabricantFigure getContructeur(DessinModele dessinModele) {
+    public FabricantFigure getConstructeur(DessinModele dessinModele) {
         return new FabricantFigure(this, dessinModele);
     }
 

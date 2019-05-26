@@ -80,7 +80,7 @@ public class Carre extends Polygone {
     }
 
     @Override
-    public FabricantFigure getContructeur(DessinModele ds) {
+    public FabricantFigure getConstructeur(DessinModele ds) {
         return new FabricantCarre(this, ds);
     }
 }
