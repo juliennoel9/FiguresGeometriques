@@ -119,7 +119,7 @@ public class VueDessin extends JPanel implements Observer {
     public void openPDF() {
         if (Desktop.isDesktopSupported()) {
             try {
-                File myFile = new File("Compte_rendu_IHM.pdf");
+                File myFile = new File("ressources/pdf/Compte_rendu_IHM.pdf");
                 Desktop.getDesktop().open(myFile);
             }
             catch (IOException ex) {
