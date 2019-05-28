@@ -123,6 +123,12 @@ public class Trait extends FigureColoree {
                         }
                     }
                 }
+                if ((p1.getY() == p2.getY()) || (Math.abs(p1.getY()-p2.getY())<=5)){
+                    if(last_y >= p1.getY()-10 && last_y <= p1.getY()+10 && last_x >= p1.getX() && last_x <= p2.getX()){
+                        selectionne();
+                        return true;
+                    }
+                }
                 return false;
             }
             else {

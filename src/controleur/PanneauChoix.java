@@ -92,7 +92,6 @@ public class PanneauChoix extends JPanel {
                 "ressources/images/transformSelected.png"
         );
         gomme = new ButonImage("Gomme", "ressources/images/rubber.png", "ressources/images/rubberSelected.png");
-        gomme.setPreferredSize(new Dimension(25, 25));
         formes = new JComboBox<>(tabForme);
 
         JButton couleur = new JButton();
@@ -231,7 +230,7 @@ public class PanneauChoix extends JPanel {
                 manip.setDesactivated();
                 newFig.setDesactivated();
                 mainLevee.setDesactivated();
-                // gomme = new JButton(rubberSelected);
+
                 formes.setEnabled(false);
                 couleur.setEnabled(false);
                 effacerSelection.setEnabled(true);

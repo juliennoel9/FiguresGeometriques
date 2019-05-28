@@ -13,8 +13,6 @@ public class DessinModele extends Observable {
 
     private List<FigureColoree> listFigureColore;
 
-    // private FabricantFigure figureEnCours;
-
     public DessinModele() {
         initDessinModele();
     }
