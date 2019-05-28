@@ -1,18 +1,17 @@
 package controleur;
 
 import modele.*;
-import modele.Rectangle;
 import vue.VueDessin;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
 /**
  * Classe representant un Panneau Choix
@@ -66,6 +65,8 @@ public class PanneauChoix extends JPanel {
 
     private JMenuBar menu;
 
+    private ButonImage gomme;
+
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
         this.colorSelected = Color.BLACK;
@@ -75,32 +76,37 @@ public class PanneauChoix extends JPanel {
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JRadioButton newFig    = new JRadioButton("Nouvelle figure");
-        JRadioButton mainLevee = new JRadioButton("Tracé à main levée");
-        JRadioButton manip     = new JRadioButton("Manipulations");
-        JRadioButton fictifButton = new JRadioButton("");
-
-        ImageIcon rubber = new ImageIcon("rubber.png");
-        JButton gomme = new JButton(rubber);
-
+        ButonImage newFig = new ButonImage(
+                "Nouvelle figure",
+                "ressources/images/figures.png",
+                "ressources/images/figuresSelected.png"
+        );
+        ButonImage mainLevee = new ButonImage(
+                "Tracé à main levée",
+                "ressources/images/pencil.png",
+                "ressources/images/pencilSelected.png"
+        );
+        ButonImage manip = new ButonImage(
+                "Manipulations",
+                "ressources/images/transform.png",
+                "ressources/images/transformSelected.png"
+        );
+        gomme = new ButonImage("Gomme", "ressources/images/rubber.png", "ressources/images/rubberSelected.png");
+        gomme.setPreferredSize(new Dimension(25, 25));
         formes = new JComboBox<>(tabForme);
-        JComboBox<String> couleurs = new JComboBox<>(new String[]{
-                "Noir",
-                "Rouge",
-                "Vert",
-                "Bleu",
-                "Jaune",
-                "Magenta",
-                "Rose",
-                "Personnaliser"
-        });
+
+        JButton couleur = new JButton();
+        couleur.setBackground(this.colorSelected);
+        couleur.setPreferredSize(new Dimension(25, 25));
+
+
         formes.setEnabled(false);
 
         ButtonGroup b = new ButtonGroup();
         b.add(newFig);
         b.add(mainLevee);
         b.add(manip);
-        b.add(fictifButton);
+        b.add(gomme);
 
         effacerSelection = new JMenuItem("Effacer");
         effacerSelection.setEnabled(false);
@@ -171,8 +177,12 @@ public class PanneauChoix extends JPanel {
         newFig.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                newFig.setActvated();
+                mainLevee.setDesactivated();
+                manip.setDesactivated();
+                gomme.setDesactivated();
                 formes.setEnabled(true);
-                couleurs.setEnabled(true);
+                couleur.setEnabled(true);
                 supFigure();
                 formes.setSelectedIndex(formes.getSelectedIndex());
                 effacerSelection.setEnabled(false);
@@ -183,8 +193,12 @@ public class PanneauChoix extends JPanel {
         mainLevee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mainLevee.setActvated();
+                newFig.setDesactivated();
+                manip.setDesactivated();
+                gomme.setDesactivated();
                 formes.setEnabled(false);
-                couleurs.setEnabled(true);
+                couleur.setEnabled(true);
                 supFigure();
                 effacerSelection.setEnabled(false);
                 effacerTout.setEnabled(false);
@@ -197,8 +211,12 @@ public class PanneauChoix extends JPanel {
         manip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                manip.setActvated();
+                newFig.setDesactivated();
+                mainLevee.setDesactivated();
+                gomme.setDesactivated();
                 formes.setEnabled(false);
-                couleurs.setEnabled(true);
+                couleur.setEnabled(true);
                 effacerSelection.setEnabled(true);
                 effacerTout.setEnabled(true);
                 supFigure();
@@ -210,29 +228,31 @@ public class PanneauChoix extends JPanel {
         gomme.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                manip.setDesactivated();
+                newFig.setDesactivated();
+                mainLevee.setDesactivated();
+                // gomme = new JButton(rubberSelected);
                 formes.setEnabled(false);
-                couleurs.setEnabled(false);
+                couleur.setEnabled(false);
                 effacerSelection.setEnabled(true);
                 effacerTout.setEnabled(true);
                 supFigure();
-                Gommeur gommeur = new Gommeur(dmodele,vdessin);
+                Gommeur gommeur = new Gommeur(dmodele, vdessin);
                 vdessin.ajoutGommmeur(gommeur);
-                gomme.setSelected(true);
-                fictifButton.setSelected(true);
+                gomme.setActvated();
             }
         });
 
 
-        couleurs.addActionListener(new ActionListener() {
+        couleur.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (couleurs.getSelectedIndex() == 7) {
-                    Color r = new Color(rand(), rand(), rand(), 255);
-                    colorSelected = JColorChooser.showDialog(vdessin,
-                                                             "Choisissez votre couleur ! ", r
-                    );
-                }
-                colorSelected = determineCouleur(couleurs.getSelectedIndex());
+                Color ancienneCouleur = colorSelected;
+                colorSelected = JColorChooser.showDialog(vdessin,
+                                                         "Choisissez votre couleur ! ", ancienneCouleur
+                );
+                couleur.setBackground(colorSelected == null ? ancienneCouleur : colorSelected);
+
                 if (figureEnCours != null) {
                     figureEnCours.changeCouleur(colorSelected);
                 }
@@ -245,30 +265,25 @@ public class PanneauChoix extends JPanel {
                 }
             }
 
-            private int rand() {
-                return new Random().nextInt(255);
-            }
         });
-
-
         formes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 vdessin.enleverListeners();
                 figureEnCours = creeFigure(formes.getSelectedIndex());
-                figureEnCours.changeCouleur(determineCouleur(couleurs.getSelectedIndex()));
+                figureEnCours.changeCouleur(colorSelected);
                 vdessin.createFigure(figureEnCours);
             }
         });
         j.add(newFig);
         j.add(mainLevee);
         j.add(manip);
-        j.add(gomme);
         this.add(j);
         j2.add(effacerTout);
         j2.add(effacerSelection);
+        j2.add(couleur);
         j2.add(formes);
-        j2.add(couleurs);
+        j2.add(gomme);
         j2.add(sauvegarder);
         j2.add(charger);
         this.add(j2);
@@ -399,42 +414,6 @@ public class PanneauChoix extends JPanel {
             manipulateurFormes = null;
         }
         dmodele.update();
-    }
-
-    /**
-     * Permet de savoir rapidement la couleur
-     *
-     * @param couleur la selection de la couleur
-     * @return la couleur
-     */
-    private Color determineCouleur(int couleur) {
-        Color res;
-        switch (couleur) {
-            case 1:
-                res = Color.RED;
-                break;
-            case 2:
-                res = Color.GREEN;
-                break;
-            case 3:
-                res = Color.BLUE;
-                break;
-            case 4:
-                res = Color.YELLOW;
-                break;
-            case 5:
-                res = Color.MAGENTA;
-                break;
-            case 6:
-                res = Color.PINK;
-                break;
-            case 7:
-                res = colorSelected;
-                break;
-            default:
-                res = Color.BLACK;
-        }
-        return res;
     }
 
     /**

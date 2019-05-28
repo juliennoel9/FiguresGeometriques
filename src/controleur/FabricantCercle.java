@@ -61,10 +61,17 @@ public class FabricantCercle extends FabricantFigure implements MouseMotionListe
                 firstPoint = new Point(e.getX(), e.getY());
             }
             pointsCliques.clear();
-            pointsCliques.add(firstPoint);
-            pointsCliques.add(new Point(e.getX(), firstPoint.getY()));
-            figureEnCours.modifierPoints(new ArrayList<>(pointsCliques));
-            ds.update();
+            if(e.getX()>= firstPoint.getX()){
+                pointsCliques.add(firstPoint);
+                pointsCliques.add(new Point(e.getX(), firstPoint.getY()));
+                figureEnCours.modifierPoints(new ArrayList<>(pointsCliques));
+                ds.update();
+            }else {
+                pointsCliques.add(new Point(e.getX(), firstPoint.getY()));
+                pointsCliques.add(firstPoint);
+                figureEnCours.modifierPoints(new ArrayList<>(pointsCliques));
+                ds.update();
+            }
         }
     }
 
