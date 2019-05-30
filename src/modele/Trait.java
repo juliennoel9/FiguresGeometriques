@@ -152,4 +152,9 @@ public class Trait extends FigureColoree {
     public FabricantFigure getConstructeur(DessinModele dessinModele) {
         return new FabricantFigure(this, dessinModele);
     }
+
+    @Override
+    public boolean isMainLevee() {
+        return mainLevee;
+    }
 }

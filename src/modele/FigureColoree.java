@@ -114,7 +114,6 @@ public abstract class FigureColoree implements Serializable {
         }
     }
 
-
     /**
      * Permet de selectioner la figure
      */
@@ -157,5 +156,15 @@ public abstract class FigureColoree implements Serializable {
 
     public boolean isSelected() {
         return selected;
+    }
+
+
+    /**
+     * Si la figure est un trait a mains levee
+     *
+     * @return true si un trait a main levee aussi non false
+     */
+    public boolean isMainLevee() {
+        return false;
     }
 }
