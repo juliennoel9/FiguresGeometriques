@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.Stockage;
 import java.awt.Graphics;
 import java.io.*;
 import java.util.ArrayList;
@@ -44,6 +45,11 @@ public class DessinModele extends Observable {
         return listFigureColore;
     }
 
+    public void setListFigureColore(List<FigureColoree> listFigureColore) {
+        this.listFigureColore = listFigureColore;
+        update();
+    }
+
     /**
      * Permet d'avoir la figure a l'index donnée, si l'index n'est pas bon il retourne null
      *
@@ -70,6 +76,7 @@ public class DessinModele extends Observable {
      * @param fc la figure
      */
     public void addFigureColore(FigureColoree fc) {
+        Stockage.addNewSauvegarde(listFigureColore);
         listFigureColore.add(fc);
     }
 
