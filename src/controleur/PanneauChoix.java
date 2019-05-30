@@ -65,7 +65,7 @@ public class PanneauChoix extends JPanel {
 
     private JMenuBar menu;
 
-    private ButonImage gomme;
+    private ButtonImage gomme;
 
     public PanneauChoix(VueDessin vdessin) {
         this.vdessin = vdessin;
@@ -76,22 +76,22 @@ public class PanneauChoix extends JPanel {
         JPanel j  = new JPanel();
         JPanel j2 = new JPanel();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        ButonImage newFig = new ButonImage(
+        ButtonImage newFig = new ButtonImage(
                 "Nouvelle figure",
                 "ressources/images/figures.png",
                 "ressources/images/figuresSelected.png"
         );
-        ButonImage mainLevee = new ButonImage(
+        ButtonImage mainLevee = new ButtonImage(
                 "Tracé à main levée",
                 "ressources/images/pencil.png",
                 "ressources/images/pencilSelected.png"
         );
-        ButonImage manip = new ButonImage(
+        ButtonImage manip = new ButtonImage(
                 "Manipulations",
                 "ressources/images/transform.png",
                 "ressources/images/transformSelected.png"
         );
-        gomme = new ButonImage("Gomme", "ressources/images/rubber.png", "ressources/images/rubberSelected.png");
+        gomme = new ButtonImage("Gomme", "ressources/images/rubber.png", "ressources/images/rubberSelected.png");
         formes = new JComboBox<>(tabForme);
 
         JButton couleur = new JButton();

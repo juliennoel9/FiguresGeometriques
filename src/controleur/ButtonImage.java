@@ -6,7 +6,7 @@ import java.awt.MediaTracker;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ButonImage extends JRadioButton {
+public class ButtonImage extends JRadioButton {
 
 
     private String desactivated;
@@ -20,29 +20,25 @@ public class ButonImage extends JRadioButton {
      * @param desactivated le path de l'image desactiver
      * @param activated    le path de l'image activer
      */
-    public ButonImage(String text, String desactivated, String activated) {
+    public ButtonImage(String text, String desactivated, String activated) {
         super(text, new ImageIcon(desactivated));
         this.actvated = activated;
         this.desactivated = desactivated;
     }
 
     public void setActvated() {
-        ImageIcon ic = new ImageIcon(actvated);
-        if (Files.exists(Path.of(actvated))) {
-            if (ic.getImageLoadStatus() == MediaTracker.COMPLETE) {
-                setIcon(ic);
-            }
-        }
-        else {
-            setIcon(null);
-        }
-        ic.getImage().flush();
+        setImageIcon(actvated);
         setSelected(true);
     }
 
     public void setDesactivated() {
-        ImageIcon ic = new ImageIcon(desactivated);
-        if (Files.exists(Path.of(desactivated))) {
+        setImageIcon(desactivated);
+        setSelected(false);
+    }
+
+    private void setImageIcon(String image) {
+        ImageIcon ic = new ImageIcon(image);
+        if (Files.exists(Path.of(image))) {
             if (ic.getImageLoadStatus() == MediaTracker.COMPLETE) {
                 setIcon(ic);
             }
@@ -51,6 +47,5 @@ public class ButonImage extends JRadioButton {
             setIcon(null);
         }
         ic.getImage().flush();
-        setSelected(false);
     }
 }
