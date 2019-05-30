@@ -7,15 +7,14 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,10 +23,15 @@ import java.util.Observer;
  */
 public class VueDessin extends JPanel implements Observer {
 
+    public static final String IMAGES_RUBBER_SELECTED = "ressources/images/rubberSelected.png";
+
     /**
      * Le dessinModele
      */
     private DessinModele dessin;
+
+
+    private PanneauChoix choix;
 
     /**
      * Constructeur ajoutant la taille
@@ -49,6 +53,9 @@ public class VueDessin extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         dessin = (DessinModele) o;
         repaint();
+        if (choix != null) {
+            choix.look();
+        }
     }
 
     /**
@@ -74,6 +81,7 @@ public class VueDessin extends JPanel implements Observer {
         if (fa.hasMotionListener()) {
             addMouseMotionListener((MouseMotionListener) fa);
         }
+        setCursor(Cursor.getDefaultCursor());
     }
 
     /**
@@ -94,6 +102,7 @@ public class VueDessin extends JPanel implements Observer {
      * @param manipulateurFormes le naipulateur de forme
      */
     public void ajoutManip(ManipulateurFormes manipulateurFormes) {
+        setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
         addMouseListener(manipulateurFormes);
         addMouseMotionListener(manipulateurFormes);
     }
@@ -106,11 +115,13 @@ public class VueDessin extends JPanel implements Observer {
     public void ajoutTraceur(TraceurForme traceurForme) {
         addMouseMotionListener(traceurForme);
         addMouseListener(traceurForme);
+        addCursor("ressources/images/pencilTrace.png", new Point(6, 26));
     }
 
-    public void ajoutGommmeur(Gommeur gommeur){
+    public void ajoutGommmeur(Gommeur gommeur) {
         addMouseListener(gommeur);
         addMouseMotionListener(gommeur);
+        addCursor(IMAGES_RUBBER_SELECTED, new Point(12, 24));
     }
 
     /**
@@ -155,7 +166,7 @@ public class VueDessin extends JPanel implements Observer {
             JOptionPane.showMessageDialog(
                     this,
                     "La conversion est fini, votre image se trouve a la destination \n"
-                            + file.getAbsolutePath()
+                    + file.getAbsolutePath()
             );
         }
         catch (IOException e) {
@@ -163,6 +174,26 @@ public class VueDessin extends JPanel implements Observer {
 
         }
 
+    }
+
+    public void addMenuControler(PanneauChoix choix) {
+        this.choix = choix;
+    }
+
+    private void addCursor(String imagesPencilSelected, Point p) {
+        Toolkit t1 = Toolkit.getDefaultToolkit();
+        if (Files.exists(Paths.get(imagesPencilSelected))) {
+            Image curs = t1.getImage(imagesPencilSelected);
+            curs.flush();
+            setCursor(t1.createCustomCursor(
+                    curs,
+                    p,
+                    "Cursor"
+            ));
+        }
+        else {
+            setCursor(Cursor.getDefaultCursor());
+        }
     }
 
 }
