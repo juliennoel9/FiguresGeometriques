@@ -98,6 +98,8 @@ public class PanneauChoix extends JPanel {
 
         JButton couleur = new JButton();
         couleur.setBackground(this.colorSelected);
+        couleur.setOpaque(true);
+        couleur.setBorderPainted(false);
         couleur.setPreferredSize(new Dimension(25, 25));
 
 
@@ -250,10 +252,15 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Color ancienneCouleur = colorSelected;
-                colorSelected = JColorChooser.showDialog(vdessin,
+                Color colorChooser = JColorChooser.showDialog(vdessin,
                                                          "Choisissez votre couleur ! ", ancienneCouleur
                 );
-                couleur.setBackground(colorSelected == null ? ancienneCouleur : colorSelected);
+                if (colorChooser == null) {
+                    colorSelected = ancienneCouleur;
+                }else {
+                    colorSelected = colorChooser;
+                }
+                couleur.setBackground(colorSelected);
 
                 if (figureEnCours != null) {
                     figureEnCours.changeCouleur(colorSelected);
