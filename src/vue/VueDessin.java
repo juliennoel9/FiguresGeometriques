@@ -4,9 +4,7 @@ import controleur.*;
 import modele.DessinModele;
 import modele.FigureColoree;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -117,7 +115,7 @@ public class VueDessin extends JPanel implements Observer {
     public void ajoutTraceur(TraceurForme traceurForme) {
         addMouseMotionListener(traceurForme);
         addMouseListener(traceurForme);
-        addCursor(IMAGES_PENCIL_SELECTED, new Point(0, 30));
+        addCursor(IMAGES_PENCIL_SELECTED, new Point(0, 29));
     }
 
     public void ajoutGommmeur(Gommeur gommeur) {
@@ -185,7 +183,7 @@ public class VueDessin extends JPanel implements Observer {
     private void addCursor(String imagesPencilSelected, Point p) {
         Toolkit t1 = Toolkit.getDefaultToolkit();
         if (Files.exists(Paths.get(imagesPencilSelected))) {
-            Image curs = t1.getImage(imagesPencilSelected);
+            Image curs = t1.getImage(imagesPencilSelected).getScaledInstance(30,30, Image.SCALE_DEFAULT);
             curs.flush();
             setCursor(t1.createCustomCursor(
                     curs,
