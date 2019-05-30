@@ -53,6 +53,7 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
     /**
      * Constructeur de la classe ManipulateurFormes prenant en parametre un DessinModele afin d'avoir
      * acces a la liste de figures colorees de celui-ci
+     *
      * @param dessinModele DessinModele
      */
     public ManipulateurFormes(DessinModele dessinModele) {
@@ -136,7 +137,6 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
                 sel = -1;
             }
         }
-        e.getComponent().requestFocusInWindow();
     }
 
     /**

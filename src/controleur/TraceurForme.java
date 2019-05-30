@@ -83,6 +83,7 @@ public class TraceurForme implements MouseMotionListener, MouseListener {
         if (panneauChoix == null) {
             panneauChoix = ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix();
         }
+        Stockage.addNewSauvegarde(dsm.getListFigureColore());
     }
 
     @Override

@@ -74,12 +74,10 @@ public class FabricantFigure implements MouseListener {
             panneauChoix = ((Fenetre) SwingUtilities.getWindowAncestor((VueDessin) e.getSource())).getChoix();
         }
         figureEnCours.changeCouleur(panneauChoix.getCouleur());
-        System.out.println("Clique n°" + nbClique + " / " + figureEnCours.nbClics());
         pointsCliques.add(new Point(e.getX(), e.getY()));
         if (nbClique == figureEnCours.nbClics()) {
             figureEnCours.modifierPoints(pointsCliques);
             ds.addFigureColore(figureEnCours);
-            ((VueDessin) e.getSource()).removeMouseListener(this);
             panneauChoix.reCreateObject();
         }
         ds.update();
