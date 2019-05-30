@@ -251,7 +251,7 @@ public class PanneauChoix extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Color ancienneCouleur = colorSelected;
                 colorSelected = JColorChooser.showDialog(vdessin,
-                        "Choisissez votre couleur ! ", ancienneCouleur
+                                                         "Choisissez votre couleur ! ", ancienneCouleur
                 );
                 couleur.setBackground(colorSelected == null ? ancienneCouleur : colorSelected);
 
@@ -296,12 +296,6 @@ public class PanneauChoix extends JPanel {
             initMenu();
         }
         return menu;
-    }
-
-    public void repaintMenu() {
-        if (menu != null) {
-            menu.repaint();
-        }
     }
 
     /**
