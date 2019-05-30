@@ -63,6 +63,8 @@ public class PanneauChoix extends JPanel {
      */
     private ManipulateurFormes manipulateurFormes;
 
+    private JMenuItem undo, redo;
+
     private JMenuBar menu;
 
     private ButtonImage gomme;
@@ -91,7 +93,7 @@ public class PanneauChoix extends JPanel {
                 "ressources/images/transform.png",
                 "ressources/images/transformSelected.png"
         );
-        gomme = new ButtonImage("Gomme", "ressources/images/rubber.png", "ressources/images/rubberSelected.png");
+        gomme = new ButtonImage("Gomme", "ressources/images/rubber.png", VueDessin.IMAGES_RUBBER_SELECTED);
         formes = new JComboBox<>(tabForme);
 
         JButton couleur = new JButton();
@@ -114,6 +116,7 @@ public class PanneauChoix extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (manipulateurFormes != null) {
+                    Stockage.addNewSauvegarde(dmodele.getListFigureColore());
                     dmodele.delFigureColoree(manipulateurFormes.figureSelection());
                     dmodele.update();
                 }
@@ -168,6 +171,7 @@ public class PanneauChoix extends JPanel {
         effacerTout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Stockage.addNewSauvegarde(dmodele.getListFigureColore());
                 dmodele.getListFigureColore().clear();
                 dmodele.update();
             }
@@ -230,11 +234,10 @@ public class PanneauChoix extends JPanel {
                 manip.setDesactivated();
                 newFig.setDesactivated();
                 mainLevee.setDesactivated();
-
                 formes.setEnabled(false);
                 couleur.setEnabled(false);
-                effacerSelection.setEnabled(true);
-                effacerTout.setEnabled(true);
+                effacerSelection.setEnabled(false);
+                effacerTout.setEnabled(false);
                 supFigure();
                 Gommeur gommeur = new Gommeur(dmodele, vdessin);
                 vdessin.ajoutGommmeur(gommeur);
@@ -248,7 +251,7 @@ public class PanneauChoix extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Color ancienneCouleur = colorSelected;
                 colorSelected = JColorChooser.showDialog(vdessin,
-                                                         "Choisissez votre couleur ! ", ancienneCouleur
+                        "Choisissez votre couleur ! ", ancienneCouleur
                 );
                 couleur.setBackground(colorSelected == null ? ancienneCouleur : colorSelected);
 
@@ -295,10 +298,17 @@ public class PanneauChoix extends JPanel {
         return menu;
     }
 
+    public void repaintMenu() {
+        if (menu != null) {
+            menu.repaint();
+        }
+    }
+
     /**
      * Permet de reselectioner l'objet a crée
      */
     public void reCreateObject() {
+        vdessin.enleverListeners();
         formes.setSelectedIndex(formes.getSelectedIndex());
     }
 
@@ -307,6 +317,11 @@ public class PanneauChoix extends JPanel {
      */
     public Color getCouleur() {
         return colorSelected;
+    }
+
+    public void look() {
+        redo.setEnabled(!Stockage.redoEmpty());
+        undo.setEnabled(!Stockage.undoEmpty());
     }
 
     private void initMenu() {
@@ -321,15 +336,15 @@ public class PanneauChoix extends JPanel {
         charger.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menu.add(file);
 
-        JMenu suprimer = new JMenu("Supression");
-        suprimer.add(effacerSelection);
+        JMenu edit = new JMenu("Edit");
+        edit.add(effacerSelection);
         effacerSelection.setToolTipText("Pour supprimer la figure selectionner");
         effacerSelection.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
-        suprimer.add(effacerTout);
-        menu.add(suprimer);
+        edit.add(effacerTout);
+        menu.add(edit);
         effacerTout.setToolTipText("Pour tout supprimer");
         effacerTout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, InputEvent.CTRL_DOWN_MASK));
-        menu.add(suprimer);
+        menu.add(edit);
 
         JMenu     aide    = new JMenu("Aide");
         JMenuItem aideBut = new JMenuItem("Aide");
@@ -393,9 +408,34 @@ public class PanneauChoix extends JPanel {
         });
         file.addSeparator();
         file.add(changTaile);
+
+        edit.addSeparator();
+        undo = new JMenuItem("Annuler");
+        undo.setToolTipText("Annule la dernière opération");
+        undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
+        undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dmodele.setListFigureColore(Stockage.retrieveLast(dmodele.getListFigureColore()));
+                look();
+            }
+        });
+        edit.add(undo);
+
+        redo = new JMenuItem("Revenir");
+        redo.setToolTipText("Revenir a la dernière opération");
+        redo.setAccelerator(KeyStroke.getKeyStroke("control alt Z"));
+        redo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dmodele.setListFigureColore(Stockage.retriveBefore(dmodele.getListFigureColore()));
+                look();
+            }
+        });
+        edit.add(redo);
+        look();
         vdessin.repaint();
     }
-
 
     /**
      * Permet de suprimer la figure plus simplement
