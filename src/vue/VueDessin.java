@@ -23,7 +23,9 @@ import java.util.Observer;
  */
 public class VueDessin extends JPanel implements Observer {
 
-    public static final String IMAGES_RUBBER_SELECTED = "ressources/images/rubberSelected.png";
+    public static final String IMAGES_RUBBER_SELECTED = "ressources/images/rubberCursor.png";
+    public static final String IMAGES_PENCIL_SELECTED = "ressources/images/pencilTrace.png";
+    public static final String IMAGES_MOVE = "ressources/images/move.png";
 
     /**
      * Le dessinModele
@@ -102,9 +104,9 @@ public class VueDessin extends JPanel implements Observer {
      * @param manipulateurFormes le naipulateur de forme
      */
     public void ajoutManip(ManipulateurFormes manipulateurFormes) {
-        setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
         addMouseListener(manipulateurFormes);
         addMouseMotionListener(manipulateurFormes);
+        addCursor(IMAGES_MOVE, new Point(15,15));
     }
 
     /**
@@ -115,13 +117,13 @@ public class VueDessin extends JPanel implements Observer {
     public void ajoutTraceur(TraceurForme traceurForme) {
         addMouseMotionListener(traceurForme);
         addMouseListener(traceurForme);
-        addCursor("ressources/images/pencilTrace.png", new Point(6, 26));
+        addCursor(IMAGES_PENCIL_SELECTED, new Point(0, 30));
     }
 
     public void ajoutGommmeur(Gommeur gommeur) {
         addMouseListener(gommeur);
         addMouseMotionListener(gommeur);
-        addCursor(IMAGES_RUBBER_SELECTED, new Point(12, 24));
+        addCursor(IMAGES_RUBBER_SELECTED, new Point(15, 15));
     }
 
     /**

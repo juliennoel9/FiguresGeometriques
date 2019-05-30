@@ -93,7 +93,7 @@ public class PanneauChoix extends JPanel {
                 "ressources/images/transform.png",
                 "ressources/images/transformSelected.png"
         );
-        gomme = new ButtonImage("Gomme", "ressources/images/rubber.png", VueDessin.IMAGES_RUBBER_SELECTED);
+        gomme = new ButtonImage("Gomme", "ressources/images/rubber.png", "ressources/images/rubberSelected.png");
         formes = new JComboBox<>(tabForme);
 
         JButton couleur = new JButton();
