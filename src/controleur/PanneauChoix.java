@@ -241,7 +241,7 @@ public class PanneauChoix extends JPanel {
                 effacerSelection.setEnabled(false);
                 effacerTout.setEnabled(false);
                 supFigure();
-                Gommeur gommeur = new Gommeur(dmodele, vdessin);
+                Gommeur gommeur = new Gommeur(dmodele);
                 vdessin.ajoutGommmeur(gommeur);
                 gomme.setActvated();
             }

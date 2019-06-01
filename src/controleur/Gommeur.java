@@ -14,11 +14,8 @@ public class Gommeur implements MouseListener, MouseMotionListener {
 
     private DessinModele dessinModele;
 
-    private VueDessin vueDessin;
-
-    public Gommeur(DessinModele dm, VueDessin vd) {
+    public Gommeur(DessinModele dm) {
         this.dessinModele = dm;
-        this.vueDessin = vd;
     }
 
     @Override
@@ -29,7 +26,6 @@ public class Gommeur implements MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(MouseEvent e) {
         Stockage.addNewSauvegarde(dessinModele.getListFigureColore());
-        this.affiche(this.vueDessin.getGraphics(), e.getX(), e.getY());
     }
 
     @Override
@@ -48,7 +44,6 @@ public class Gommeur implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        this.affiche(this.vueDessin.getGraphics(), e.getX(), e.getY());
         Iterator<FigureColoree> fgI = this.dessinModele.getListFigureColore().iterator();
 
         while (fgI.hasNext()) {
@@ -66,12 +61,6 @@ public class Gommeur implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        this.affiche(this.vueDessin.getGraphics(), e.getX(), e.getY());
-    }
 
-    public void affiche(Graphics g, int x, int y) {
-        g.setColor(Color.RED);
-        g.fillOval(x - 15, y - 15, 30, 30);
-        dessinModele.update();
     }
 }
