@@ -113,26 +113,6 @@ public class FabricantFigure implements MouseListener {
 
     }
 
-    /**
-     * @return la figure en cours
-     */
-    public FigureColoree getFigureEnCours() {
-        return figureEnCours;
-    }
-
-    /**
-     * @return une liste de point
-     */
-    public List<Point> getPointsClique() {
-        return pointsCliques;
-    }
-
-    /**
-     * @return le nombre de clock
-     */
-    public int getNbClique() {
-        return nbClique;
-    }
 
     public boolean hasMotionListener() {
         return false;

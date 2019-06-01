@@ -141,23 +141,36 @@ public abstract class FigureColoree implements Serializable {
         return tab_mem;
     }
 
+    /**
+     * Permet de savoir si la souris est dans la figure
+     *
+     * @param e l'event
+     * @return true si elle est dedans, false sinon
+     */
     public abstract boolean isInSelection(MouseEvent e);
 
+    /**
+     * Permet d'avoir la class qui construira la figure
+     *
+     * @param dessinModele le dessin model
+     * @return une classe avec des events souris
+     */
     public abstract FabricantFigure getConstructeur(DessinModele dessinModele);
 
+    /**
+     * Permet de translater un point de la figure
+     *
+     * @param selected le point slelectioner
+     * @param difX     de combien le bouger de x
+     * @param difY     de combien le bouger de y
+     */
     public void transforamtionFigure(Point selected, int difX, int difY) {
         selected.translater(difX, difY);
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(tab_mem);
     }
 
     public boolean isSelected() {
         return selected;
     }
-
 
     /**
      * Si la figure est un trait a mains levee
@@ -166,5 +179,10 @@ public abstract class FigureColoree implements Serializable {
      */
     public boolean isMainLevee() {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(tab_mem);
     }
 }

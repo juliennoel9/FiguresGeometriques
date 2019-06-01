@@ -209,12 +209,4 @@ public class ManipulateurFormes implements MouseListener, MouseMotionListener {
         }
     }
 
-    /**
-     * Getter permettant de retourner la liste de figure de l'instance
-     *
-     * @return Liste de figures
-     */
-    public List<FigureColoree> getLfg() {
-        return lfg;
-    }
 }

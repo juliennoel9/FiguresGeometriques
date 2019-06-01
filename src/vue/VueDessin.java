@@ -4,7 +4,9 @@ import controleur.*;
 import modele.DessinModele;
 import modele.FigureColoree;
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -23,7 +25,7 @@ public class VueDessin extends JPanel implements Observer {
 
     public static final String IMAGES_RUBBER_SELECTED = "ressources/images/rubberCursor.png";
     public static final String IMAGES_PENCIL_SELECTED = "ressources/images/pencilTrace.png";
-    public static final String IMAGES_MOVE = "ressources/images/move.png";
+    public static final String IMAGES_MOVE            = "ressources/images/move.png";
 
     /**
      * Le dessinModele
@@ -104,7 +106,7 @@ public class VueDessin extends JPanel implements Observer {
     public void ajoutManip(ManipulateurFormes manipulateurFormes) {
         addMouseListener(manipulateurFormes);
         addMouseMotionListener(manipulateurFormes);
-        addCursor(IMAGES_MOVE, new Point(15,15));
+        addCursor(IMAGES_MOVE, new Point(15, 15));
     }
 
     /**
@@ -118,6 +120,11 @@ public class VueDessin extends JPanel implements Observer {
         addCursor(IMAGES_PENCIL_SELECTED, new Point(0, 29));
     }
 
+    /**
+     * Permet d'ajout les listener et le curseur
+     *
+     * @param gommeur la class gommer
+     */
     public void ajoutGommmeur(Gommeur gommeur) {
         addMouseListener(gommeur);
         addMouseMotionListener(gommeur);
@@ -140,8 +147,16 @@ public class VueDessin extends JPanel implements Observer {
                 JOptionPane.showMessageDialog(this, "Fichier inexistant");
             }
         }
+        else {
+            JOptionPane.showMessageDialog(this, "Fonction pas supportée par votre OS");
+        }
     }
 
+    /**
+     * Permet de convertir le JPanel en image du formet selectioner
+     *
+     * @param file la fichier qui sera la sortie
+     */
     public void toImage(File file) {
         String   name = file.getAbsolutePath();
         String   prot = "png";
@@ -176,14 +191,25 @@ public class VueDessin extends JPanel implements Observer {
 
     }
 
+    /**
+     * Permet d'ajout Paneau choix, utile uniquement pour l'UNDO et le REDO
+     *
+     * @param choix la class Paneau Choix
+     */
     public void addMenuControler(PanneauChoix choix) {
         this.choix = choix;
     }
 
-    private void addCursor(String imagesPencilSelected, Point p) {
+    /**
+     * Permet d'ajouter un curseur
+     *
+     * @param image l'image
+     * @param p     la position centrale de l'imaged
+     */
+    private void addCursor(String image, Point p) {
         Toolkit t1 = Toolkit.getDefaultToolkit();
-        if (Files.exists(Paths.get(imagesPencilSelected))) {
-            Image curs = t1.getImage(imagesPencilSelected).getScaledInstance(30,30, Image.SCALE_DEFAULT);
+        if (Files.exists(Paths.get(image))) {
+            Image curs = t1.getImage(image).getScaledInstance(30, 30, Image.SCALE_DEFAULT);
             curs.flush();
             setCursor(t1.createCustomCursor(
                     curs,

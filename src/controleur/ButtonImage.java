@@ -26,16 +26,27 @@ public class ButtonImage extends JRadioButton {
         this.desactivated = desactivated;
     }
 
-    public void setActvated() {
+    /**
+     * Met l'image activated
+     */
+    public void setActivated() {
         setImageIcon(actvated);
         setSelected(true);
     }
 
-    public void setDesactivated() {
+    /**
+     * Met l'image desactiver
+     */
+    public void setDeactivated() {
         setImageIcon(desactivated);
         setSelected(false);
     }
 
+    /**
+     * Ajout l'image au curseur
+     *
+     * @param image l'image
+     */
     private void setImageIcon(String image) {
         ImageIcon ic = new ImageIcon(image);
         if (Files.exists(Path.of(image))) {

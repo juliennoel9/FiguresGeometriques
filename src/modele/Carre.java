@@ -6,11 +6,19 @@ import java.util.List;
 
 public class Carre extends Polygone {
 
+    /**
+     * @return le nombre de points
+     */
     @Override
     public int nbPoints() {
         return 0;
     }
 
+    /**
+     * Permet de modifier les points, calcule les points manquant
+     *
+     * @param points les points a ajouter
+     */
     @Override
     public void modifierPoints(List<Point> points) {
         Point a  = points.get(0);
@@ -25,6 +33,13 @@ public class Carre extends Polygone {
 
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param selected le point slelectioner
+     * @param difX     de combien le bouger de x
+     * @param difY     de combien le bouger de y
+     */
     @Override
     public void transforamtionFigure(Point selected, int difX, int difY) {
         switch (this.getPoints().indexOf(selected)) {
@@ -79,6 +94,12 @@ public class Carre extends Polygone {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param ds dessin model
+     * @return le constructeur
+     */
     @Override
     public FabricantFigure getConstructeur(DessinModele ds) {
         return new FabricantCarre(this, ds);

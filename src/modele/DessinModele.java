@@ -19,17 +19,6 @@ public class DessinModele extends Observable {
     }
 
     /**
-     * Permet de del un figure dans la list, si l'index n'est pas bon, rien ne se passe
-     *
-     * @param index index la figure a del
-     */
-    public void delFigureColoree(int index) {
-        if (index > 0 && index < listFigureColore.size()) {
-            listFigureColore.remove(index);
-        }
-    }
-
-    /**
      * Permet de del un figure dans la list
      *
      * @param fg la figure a del
@@ -48,19 +37,6 @@ public class DessinModele extends Observable {
     public void setListFigureColore(List<FigureColoree> listFigureColore) {
         this.listFigureColore = listFigureColore;
         update();
-    }
-
-    /**
-     * Permet d'avoir la figure a l'index donnée, si l'index n'est pas bon il retourne null
-     *
-     * @param index l'objet a get
-     * @return la figure ou null
-     */
-    public FigureColoree getFigure(int index) {
-        if (index > 0 && index < listFigureColore.size()) {
-            return listFigureColore.get(index);
-        }
-        return null;
     }
 
     /**
@@ -89,17 +65,25 @@ public class DessinModele extends Observable {
     }
 
     /**
-     * Permet de stop la création
+     * Permet de sauvegarder un etat
+     *
+     * @param destination      le fichier de destination
+     * @param listFigureColore la liste a sauvegarder
+     * @throws IOException Si il y a une erreur
      */
-   /* public void finFigure() {
-        figureEnCours = null;
-    }*/
     public void sauvegarderFigures(String destination, List<FigureColoree> listFigureColore) throws IOException {
         ObjectOutputStream d = new ObjectOutputStream(new FileOutputStream(destination));
         d.writeObject(listFigureColore);
         d.close();
     }
 
+    /**
+     * Permet de charger une figure
+     *
+     * @param source le fichier source
+     * @throws IOException            Si le fichier a un probleme
+     * @throws ClassNotFoundException Si la class n'est pas la bonne ou que le code a été changé
+     */
     public void chargerFigures(String source) throws IOException, ClassNotFoundException {
         ObjectInputStream   di                = new ObjectInputStream(new FileInputStream(source));
         List<FigureColoree> figureColoreeList = (List<FigureColoree>) (di.readObject());
@@ -109,6 +93,11 @@ public class DessinModele extends Observable {
         update();
     }
 
+    /**
+     * Permet de dessiner les figure
+     *
+     * @param g le graphic
+     */
     public void drawFigures(Graphics g) {
         for (FigureColoree figureColoree : listFigureColore) {
             g.setColor(figureColoree.getCouleur());

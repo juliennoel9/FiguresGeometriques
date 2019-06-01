@@ -130,7 +130,6 @@ public class PanneauChoix extends JPanel {
 
         sauvegarder = new JMenuItem("Enregister sous ...");
         sauvegarder.setEnabled(true);
-
         charger = new JMenuItem("Ouvrir ...");
         charger.setEnabled(true);
 
@@ -155,18 +154,7 @@ public class PanneauChoix extends JPanel {
         sauvegarder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    JFileChooser fc = new JFileChooser();
-                    fc.setFileFilter(new FileNameExtensionFilter("IHM extension", "ihm"));
-                    int a = fc.showDialog(vdessin, "Get File directory");
-                    if (a == 0) {
-                        String s = fc.getSelectedFile().getAbsolutePath();
-                        dmodele.sauvegarderFigures(s.endsWith(".ihm") ? s : s + ".ihm", dmodele.getListFigureColore());
-                    }
-                }
-                catch (IOException e1) {
-                    JOptionPane.showMessageDialog(vdessin, "Erreur lors de la sauvegarde");
-                }
+                save();
             }
         });
 
@@ -182,10 +170,10 @@ public class PanneauChoix extends JPanel {
         newFig.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                newFig.setActvated();
-                mainLevee.setDesactivated();
-                manip.setDesactivated();
-                gomme.setDesactivated();
+                newFig.setActivated();
+                mainLevee.setDeactivated();
+                manip.setDeactivated();
+                gomme.setDeactivated();
                 formes.setEnabled(true);
                 couleur.setEnabled(true);
                 supFigure();
@@ -198,10 +186,10 @@ public class PanneauChoix extends JPanel {
         mainLevee.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainLevee.setActvated();
-                newFig.setDesactivated();
-                manip.setDesactivated();
-                gomme.setDesactivated();
+                mainLevee.setActivated();
+                newFig.setDeactivated();
+                manip.setDeactivated();
+                gomme.setDeactivated();
                 formes.setEnabled(false);
                 couleur.setEnabled(true);
                 supFigure();
@@ -216,10 +204,10 @@ public class PanneauChoix extends JPanel {
         manip.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                manip.setActvated();
-                newFig.setDesactivated();
-                mainLevee.setDesactivated();
-                gomme.setDesactivated();
+                manip.setActivated();
+                newFig.setDeactivated();
+                mainLevee.setDeactivated();
+                gomme.setDeactivated();
                 formes.setEnabled(false);
                 couleur.setEnabled(true);
                 effacerSelection.setEnabled(true);
@@ -233,9 +221,9 @@ public class PanneauChoix extends JPanel {
         gomme.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                manip.setDesactivated();
-                newFig.setDesactivated();
-                mainLevee.setDesactivated();
+                manip.setDeactivated();
+                newFig.setDeactivated();
+                mainLevee.setDeactivated();
                 formes.setEnabled(false);
                 couleur.setEnabled(false);
                 effacerSelection.setEnabled(false);
@@ -243,7 +231,7 @@ public class PanneauChoix extends JPanel {
                 supFigure();
                 Gommeur gommeur = new Gommeur(dmodele);
                 vdessin.ajoutGommmeur(gommeur);
-                gomme.setActvated();
+                gomme.setActivated();
             }
         });
 
@@ -253,11 +241,12 @@ public class PanneauChoix extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Color ancienneCouleur = colorSelected;
                 Color colorChooser = JColorChooser.showDialog(vdessin,
-                                                         "Choisissez votre couleur ! ", ancienneCouleur
+                                                              "Choisissez votre couleur ! ", ancienneCouleur
                 );
                 if (colorChooser == null) {
                     colorSelected = ancienneCouleur;
-                }else {
+                }
+                else {
                     colorSelected = colorChooser;
                 }
                 couleur.setBackground(colorSelected);
@@ -320,11 +309,35 @@ public class PanneauChoix extends JPanel {
         return colorSelected;
     }
 
+    /**
+     * Permet d'update les boutons
+     */
     public void look() {
         redo.setEnabled(!Stockage.redoEmpty());
         undo.setEnabled(!Stockage.undoEmpty());
     }
 
+    /**
+     * Permet de save la figure
+     */
+    public void save() {
+        try {
+            JFileChooser fc = new JFileChooser();
+            fc.setFileFilter(new FileNameExtensionFilter("IHM extension", "ihm"));
+            int a = fc.showDialog(vdessin, "Get File directory");
+            if (a == 0) {
+                String s = fc.getSelectedFile().getAbsolutePath();
+                dmodele.sauvegarderFigures(s.endsWith(".ihm") ? s : s + ".ihm", dmodele.getListFigureColore());
+            }
+        }
+        catch (IOException e1) {
+            JOptionPane.showMessageDialog(vdessin, "Erreur lors de la sauvegarde");
+        }
+    }
+
+    /**
+     * Initialise le menu
+     */
     private void initMenu() {
         menu = new JMenuBar();
         menu.setVisible(true);
